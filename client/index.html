@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='moneyPal' >
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+        <!--<meta http-equiv="X-UA-Compatible" content="IE=edge">-->
+        <title>MoneyPal</title>
+        <meta name="description" content="Cloud Admin Panel" />
+        <!--<meta name="keywords" content="Admin, Dashboard, Bootstrap3, Sass, transform, CSS3, HTML5, Web design, UI Design, Responsive Dashboard, Responsive Admin, Admin Theme, Best Admin UI, Bootstrap Theme, Bootstrap, Light weight Admin Dashboard,Light weight, Light weight Admin, Light weight Dashboard" />-->
+        <meta name="author" content="Bootstrap Gallery" />
+
+        <link rel="shortcut icon" href="assets/img/favicon.ico">
+
+        <!--<link rel="stylesheet" type="text/css" href="/bower_components/angularjs-multiselect/isteven-multi-select.css">-->
+
+        <!-- Font Awesome -->
+        <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
+        <!-- Animate CSS -->
+        <link href="assets/css/animate.css" rel="stylesheet" media="screen">
+
+        <!-- Sweet Alert -->
+        <link href="assets/css/sweet-alert/notifications.css" rel="stylesheet">
+        <link href="assets/css/sweet-alert/ie9.css" rel="stylesheet">
+        <link href="assets/css/sweet-alert/sweet-alert.css" rel="stylesheet">
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAoN44U_NgeOs_-fp5LVcs4udEsLxbilYc" defer>
+        </script>
+
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- Bootstrap -->
+        <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+        <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>-->
+
+        <!--<script src="https://code.jquery.com/jquery-1.11.0.min.js"> </script>
+        <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>-->
+
+
+    </head>
+
+    <body>
+        <div data-ui-view=""></div>
+
+        <script src="assets/js/locationManager.js"></script>
+
+        <!--Angular js reference starts-->
+        <script type="text/javascript" src="/bower_components/angular/angular.min.js"></script>
+        <!--<script type="text/javascript" src="/bower_components/angularjs-multiselect/isteven-multi-select.js"></script>-->
+        <script type="text/javascript" src="/bower_components/ng-lodash/build/ng-lodash.min.js"> </script>
+        <script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="/bower_components/angular-route/angular-route.js"></script>
+        <!--<script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>-->  
+        <!--<script type="text/javascript" src="/bower_components/file-saver/FileSaver.js"></script>
+        <script type="text/javascript" src="/bower_components/file-saver/FileSaver.min.js"></script>-->
+        <!--End of Angularjs -->
+
+
+        <!--app.js  where routes are defined-->
+        <script type="text/javascript" src="app.module.js"></script>
+        <script type="text/javascript" src="lib/app.js"></script>
+        <script type="text/javascript" src ="Authorization/Authorization.js"></script>
+        <script type="text/javascript" src = "Interceptors/authinterceptor.js"></script>
+
+        <!--Module Feature-->
+        <script type="text/javascript" src="Login/login.module.js"></script>
+        <script type="text/javascript" src="MoneyCharts/moneyCharts.module.js"></script>
+        <script type="text/javascript" src="Layouts/layout.module.js"></script>
+        <script type="text/javascript" src="MoneyData/moneyData.module.js"></script>
+        <!--End Module Feature-->
+
+        <!--Login Feature-->
+        <script type="text/javascript" src="Login/login.js"></script>
+        <script type="text/javascript" src="Login/changePassword.js"></script>
+        <script type="text/javascript" src ="Login/login.service.js"></script>
+
+        <!--End Login Feature -->
+
+        <!--Chart Feature-->
+        <script type="text/javascript" src="MoneyCharts/dayCharts.js"></script>
+        <script type="text/javascript" src="MoneyCharts/newMoneyEntry.js"></script>
+        <script type="text/javascript" src="MoneyCharts/monthCharts.js"></script>
+        <script type="text/javascript" src="MoneyCharts/moneyCharts.service.js"></script>
+        <!--End Chart Feature-->
+
+        <!--Layout Feature-->
+        <script type="text/javascript" src="Layouts/header.js"></script>
+        <script type="text/javascript" src="Layouts/sidebar.js"></script>
+        <!--End Layout Feature-->
+
+        <!--Data Feature-->
+        <script type="text/javascript" src="MoneyData/moneyMap.js"></script>
+        <script type="text/javascript" src="MoneyData/moneyData.service.js"></script>
+        <!--End Data Feature-->
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="assets/js/jquery.js"></script>
+
+        <script src="assets/js/jquery.ui.js"></script>
+
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="assets/js/bootstrap.min.js"></script>
+
+        <!-- Flot Charts -->
+        <!--<script src="assets/js/flot/jquery.flot.js"></script>
+        <script src="assets/js/flot/jquery.flot.time.js"></script>
+        <script src="assets/js/flot/jquery.flot.selection.js"></script>
+        <script src="assets/js/flot/jquery.flot.resize.js"></script>
+        <script src="assets/js/flot/jquery.flot.tooltip.js"></script>
+        <script src="assets/js/flot/flot.excanvas.min.js"></script>-->
+
+        <!-- Custom flot JS -->
+        <!--<script src="assets/js/flot/custom/combine-chart.js"></script>-->
+
+        <!-- Animated Right Sidebar -->
+        <script src="assets/js/slidebars.js"></script>
+
+        <!-- Tyny Scrollbar -->
+        <script src="assets/js/tiny-scrollbar.js"></script>
+
+        <!-- Date Range -->
+        <script src="assets/js/daterange/moment.js"></script>
+        <script src="assets/js/daterange/daterangepicker.js"></script>
+
+        <!-- Notifications -->
+        <script src="assets/js/sweet-alert/sweet-alert.min.js"></script>
+
+        <!-- Fullcalendar JS -->
+        <script src="assets/js/calendar/fullcalendar.min.js"></script>
+        <script src="assets/js/calendar/fullcalendar.js"></script>
+
+        <!-- Custom JS -->
+        <script src="assets/js/custom.js"></script>
+        <script src="assets/js/custom-index.js"></script>
+
+
+    </body>
+
+</html> 

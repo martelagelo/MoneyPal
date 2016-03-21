@@ -1,0 +1,42 @@
+<div ng-controller = "loginController">
+
+    <link href="assets/css/login.css" rel="stylesheet" media="screen">
+    <!-- Font Awesome -->
+    <link href="assets/fonts/font-awesome.min.css" rel="stylesheet">
+    <!-- Animate CSS -->
+    <link href="assets/css/animate.css" rel="stylesheet" media="screen">
+
+	<form  id="wrapper" ng-submit="submitLoginInfo()">
+		<div id="box" class="animated bounceIn">
+			<div id="top_header">
+				<a href="#">
+					<h1>MoneyPal</h1>
+					<!--<img class="logo" src="assets/img/logo.png" alt="logo">-->
+				</a>
+				<h5>
+					Sign in to continue to your<br />
+					MoneyPal Account.
+				</h5>
+			</div>
+			<di id="inputs">
+				<div class="form-control">
+					<input type="text" placeholder="username" ng-model = "userinfo.username">
+					<i class="fa fa-envelope-o"></i>
+				</div>
+				<div class="form-control">
+					<input type="password" placeholder="Password" ng-model = "userinfo.password" id="user-password">
+					<i class="fa fa-key"></i>
+				</div>
+				<input type="submit" value="Sign In">
+			</di>
+			<div id="bottom">
+				<div class="squared-check">
+					<input type="checkbox" value="None" id="remember" name="check" checked="">
+					<label for="remember"></label>
+					<div class="cb-label">Remember</div>
+				</div>
+				<a class="right_a" href="#">Forgot password?</a>
+			</div>
+		</div>
+	</form>
+</div>

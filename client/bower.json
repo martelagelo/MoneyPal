@@ -1,0 +1,29 @@
+{
+  "name": "Bower Components",
+  "version": "0.0.1",
+  "authors": [
+    "Hardik Bhut <hardik.bhut@rapidops.com>"
+  ],
+  "description": "Common Bower Components",
+  "main": "index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.3",
+    "angular-ui-router": "0.2.15",
+    "angular-cookies": "*",
+    "angular-sanitize": "1.3.13",
+    "angular-route": "*",
+    "file-saver": "*",
+    "angular-bootstrap": "0.12.0",
+    "angularjs-multiselect": "~3.0.0",
+    "ng-lodash": "~0.2.3"
+  },
+  "resolutions": {
+    "angular": "1.3"
+  }
+}

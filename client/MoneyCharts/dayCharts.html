@@ -1,0 +1,159 @@
+<!-- Bootstrap CSS -->
+<link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+<!-- Main CSS -->
+<link href="assets/css/main.css" rel="stylesheet" media="screen">
+
+<!-- Slidebar CSS -->
+<link rel="stylesheet" type="text/css" href="assets/css/slidebars.css">
+
+<!-- date range -->
+<link rel="stylesheet" type="text/css" href="assets/css/daterange.css">
+
+<!-- Metrize Fonts -->
+<link href="assets/fonts/metrize.css" rel="stylesheet">
+
+
+<div ng-controller = "dayChartsController">
+
+<div ng-include src = "'Layouts/sidebar.html'"></div>
+
+
+<!-- Dashboard Wrapper Start -->
+<div class="dashboard-wrapper">
+
+<div ng-include src = "'Layouts/header.html'"></div>
+
+<!-- Main Container Start -->
+    <div class="main-container">
+
+        <!-- Top Bar Starts -->
+        <div class="top-bar clearfix">
+            <div class="page-title">
+                <h4><div class="fs1" aria-hidden="true" data-icon="&#xe007;"></div>Dashboard</h4>
+            </div>
+            <ul class="right-stats hidden-xs" id="mini-nav-right">
+                <li class="reportrange btn btn-success">
+                    <i class="fa fa-calendar"></i>
+                    <span></span> <b class="caret"></b>
+                </li>
+                <li>
+                    <a href="#" class="btn btn-info sb-open-right  sb-close">
+                        <div class="fs1" aria-hidden="true" data-icon="&#xe06a;"></div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- Top Bar Ends -->
+
+        <!-- Container fluid Starts -->
+        <div class="container-fluid">
+            <!-- Spacer starts -->
+                    <div class="spacer-xs">
+
+                        <!-- Row start -->
+                  <div class="row no-gutter">
+                    <div class="col-md-12 col-sm-12 col-sx-12">
+                      <div class="panel panel-default">
+                        <div class="panel-heading">
+                                        <h4>Table : {{date | date:'longDate'}}, Net Cost: {{totCost}}</h4>
+                                        <ul class="links">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-table"></i>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                        <div class="panel-body">
+                          <div class="table-responsive">
+                            <table class="table table-condensed table-striped table-bordered table-hover no-margin">
+                              <thead>
+                                <tr>
+                                  <th style="width:5%">
+                                    <input type="checkbox" class="no-margin">
+                                  </th>
+                                  <th style="width:45%">Description</th>
+                                  <th style="width:10%" class="hidden-phone">Cost</th>
+                                  <th style="width:10%" class="hidden-phone">Status</th>
+                                  <th style="width:15%" class="hidden-phone">Date</th>
+                                  <th style="width:15%" class="hidden-phone">Actions</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr ng-repeat = "entry in entries">
+                                  <td>
+                                    <input type="checkbox" class="no-margin">
+                                  </td>
+                                  <td ng-hide="isEdit(entry)">
+                                    <span class="name">{{entry.description}}</span>
+                                  </td>
+                                  <td ng-show="isEdit(entry)">
+                                    <input type="text" placeholder="{{entry.description}}" id="{{entry._id}}_des" ng-model="newDescription">
+                                  </td>
+                                  <td class="hidden-phone" ng-hide="isEdit(entry)">{{entry.cost}}</td>
+                                  <td class="hidden-phone" ng-show="isEdit(entry)">
+                                    <input type="number" placeholder="{{entry.cost}}" id="{{entry._id}}_cost" ng-model="newCost">
+                                  </td>
+                                  <td class="hidden-phone" ng-hide="isEdit(entry)">
+                                    <span ng-show="entry.isCost" class="label label label-danger">Expenditure</span>
+                                    <span ng-hide="entry.isCost" class="label label label-info">Gain</span>
+                                  </td>
+                                  <td class="hidden-phone" ng-show="isEdit(entry)">
+                                    <select id="{{entry._id}}_select">
+                                      <option value="expenditure">Expenditure</option>
+                                      <option value="gain">Gain</option>
+                                    </select>
+                                  </td>
+                                  <td class="hidden-phone" ng-hide="isEdit(entry)">{{entry.date|date:'longDate'}}</td>
+                                  <td class="hidden-phone" ng-show="isEdit(entry)">
+                                    <input type="date" id="{{entry._id}}_date">
+                                  </td>
+                                  <td class="hidden-phone" ng-hide="isEdit(entry)">
+                                    <div class="btn-group">
+                                      <button data-toggle="dropdown" class="btn btn-xs dropdown-toggle">
+                                        Action 
+                                        <span class="caret">
+                                        </span>
+                                      </button>
+                                      <ul class="dropdown-menu pull-right">
+                                        <li>
+                                          <a href="#" data-original-title="" ng-click="toggleEdit(entry)">Edit</a>
+                                        </li>
+                                        <li>
+                                          <a href="#" data-original-title="" ng-click="deleteMoneyEntry(entry)">Delete</a>
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  </td>
+                                  <td class="hidden-phone" ng-show="isEdit(entry)">
+                                    <button type="button" class="btn btn-xs btn-primary" ng-click="editMoneyEntry(entry)">Enter</button>
+                                    <button type="button" class="btn btn-xs btn-danger" ng-click="toggleEdit(entry)">Cancel</button>
+                                  <td>
+
+                                </tr>
+                                
+                                
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Row end -->
+        </div>
+        <!-- Container fluid ends -->
+
+    </div>
+    <!-- Main Container Start -->
+    
+</div>
+<!-- Dashboard Wrapper End -->
+    <!-- Footer Start -->
+    <footer>
+        Copyright Cloud Admin <span>2015</span>. All Rights Reserved.
+    </footer>
+    <!-- Footer end -->
+
+</div>
