@@ -2,7 +2,16 @@
 	angular.module('moneyPal.moneyData')
 	.controller('moneyMapController', moneyMapController);
 
-	function moneyMapController($scope, loginDataService, authToken, $location) {
+	function moneyMapController($scope, loginDataService, authToken, $location, moneyDataService) {
+
+		var user = loginDataService.getUserInfo();
+
+		moneyDataService.getMoneyLocations().success(function(resp) {
+			console.log(resp.listOfLocations);
+		}).error(function(err, status) {
+			$location.path('/login'); 
+		});
+
 
 		//initAutocomplete();
 		var map;

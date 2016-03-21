@@ -39,4 +39,6 @@ module.exports = function(app, passport) {
 	app.get('/charts/cost/year', isAuthenticated, moneyEntryController.getCostsByYear);
 
 	app.delete('/dayCharts/:id', isAuthenticated, moneyEntryController.deleteMoneyEntry);
+
+	app.get('/data/locations', isAuthenticated, moneyEntryController.getMoneyLocations);
 };

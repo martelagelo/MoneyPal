@@ -151,3 +151,21 @@ exports.updateMoneyEntry = function(req, res, next) {
 		}		
 	});	
 };
+
+exports.getMoneyLocations = function(req, res, next) {
+	var fields = 'location';
+	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id}, select: fields}, function(err, listOfLocations) {
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		}
+		else {
+			res.status(200).send({
+				status: true,
+				listOfLocations: listOfLocations,
+				user: req.user
+			});
+		}
+	});
+};
