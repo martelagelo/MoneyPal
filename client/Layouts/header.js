@@ -7,29 +7,37 @@
 		if(user == null || user == undefined) $location.path('/login');
 		$scope.name = user.firstName + " " + user.lastName;
 
-		var date = new Date();
+		getCosts();
 
-		moneyChartsService.getCostDay(date.getFullYear(), date.getMonth(), date.getDate()).success(function(resp) {
-			$scope.totDayCost = sumCosts(resp.listOfCosts);
+		$scope.$on('updateCosts', function(event, args) {
+			getCosts();
+		});
 
-			moneyChartsService.getCostMonth(date.getFullYear(), date.getMonth()).success(function(resp) {
-				$scope.totMonthCost = sumCosts(resp.listOfCosts);
+		function getCosts() {
+			var date = new Date();
 
-				moneyChartsService.getCostYear(date.getFullYear()).success(function(resp) {
-					$scope.totYearCost = sumCosts(resp.listOfCosts);
-					$scope.dayPercent = percent_round(Math.abs($scope.totDayCost/user.salary));
-					$scope.monthPercent = percent_round(Math.abs($scope.totMonthCost/user.salary));
-					$scope.yearPercent = percent_round(Math.abs($scope.totYearCost/user.salary));
-					
+			moneyChartsService.getCostDay(date.getFullYear(), date.getMonth(), date.getDate()).success(function(resp) {
+				$scope.totDayCost = sumCosts(resp.listOfCosts);
+
+				moneyChartsService.getCostMonth(date.getFullYear(), date.getMonth()).success(function(resp) {
+					$scope.totMonthCost = sumCosts(resp.listOfCosts);
+
+					moneyChartsService.getCostYear(date.getFullYear()).success(function(resp) {
+						$scope.totYearCost = sumCosts(resp.listOfCosts);
+						$scope.dayPercent = percent_round(Math.abs($scope.totDayCost/user.salary));
+						$scope.monthPercent = percent_round(Math.abs($scope.totMonthCost/user.salary));
+						$scope.yearPercent = percent_round(Math.abs($scope.totYearCost/user.salary));
+						
+					}).error(function(err) {
+						//Try to do nothing...
+					});
 				}).error(function(err) {
 					//Try to do nothing...
 				});
 			}).error(function(err) {
 				//Try to do nothing...
 			});
-		}).error(function(err) {
-			//Try to do nothing...
-		});
+		};
 
 		$scope.logout = function(){
 			loginDataService.logout().then(function(user){
@@ -44,8 +52,9 @@
 		function sumCosts(entries) {
 			var totCost = 0;
 			entries.forEach(function(entry) {
-				totCost = totCost - entry.cost;
-			})
+				if (entry.isCost) totCost = totCost - entry.cost;
+				else totCost = totCost + entry.cost;
+			});
 			return money_round(totCost);
 		};
 

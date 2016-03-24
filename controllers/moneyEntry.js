@@ -36,7 +36,7 @@ exports.getMoneyEntriesByDay = function(req, res) {
 };
 
 exports.getCostsByDay = function(req, res) {
-	var fields = 'cost';
+	var fields = 'cost isCost';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, day:req.query.day, month:req.query.month, year:req.query.year}, select:fields}, function(err, listOfCosts) {
 		if(err) {
 			res.status(500).send({
@@ -54,7 +54,7 @@ exports.getCostsByDay = function(req, res) {
 };
 
 exports.getCostsByMonth = function(req, res) {
-	var fields = 'cost';
+	var fields = 'cost isCost';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, month:req.query.month, year:req.query.year}, select:fields}, function(err, listOfCosts) {
 		if(err) {
 			res.status(500).send({
@@ -72,7 +72,7 @@ exports.getCostsByMonth = function(req, res) {
 };
 
 exports.getCostsByYear = function(req, res) {
-	var fields = 'cost';
+	var fields = 'cost isCost';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, year:req.query.year}, select:fields}, function(err, listOfCosts) {
 		if(err) {
 			res.status(500).send({
@@ -105,9 +105,9 @@ exports.createMoneyEntry = function(req, res, next) {
 			});
 		} else{
 			res.status(201).send({
-    		status	: true,
-    		data	: createdEntry,
-    		msg		: "Successfully created"
+	    		status	: true,
+	    		data	: createdEntry,
+	    		msg		: "Successfully created"
 			});
 		}
 	});
@@ -153,7 +153,7 @@ exports.updateMoneyEntry = function(req, res, next) {
 };
 
 exports.getMoneyLocations = function(req, res, next) {
-	var fields = 'location';
+	var fields = 'location description';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id}, select: fields}, function(err, listOfLocations) {
 		if(err) {
 			res.status(500).send({

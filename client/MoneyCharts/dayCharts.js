@@ -33,6 +33,7 @@
   				$scope.entries.splice(index, 1); 
   				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
   				swal("Success!", "Entry deleted!", "success");
+  				$scope.$broadcast('updateCosts');
 				//$state.reload();
 			}).error(function(err) {
 				swal("Cancelled", "Could not delete entry", "error");
@@ -67,6 +68,7 @@
 			moneyChartsService.updateMoneyEntry(submitMoneyEntry, Entry._id).success(function(response){
 				swal("Success!", "Entry updated!", "success");
 				$state.reload();
+				$scope.$broadcast('updateCosts');
 			}).error(function(err){
 				if(err.status === 401) $state.go('/login');
 			}); 
@@ -97,7 +99,8 @@
 		function calculateTotalDailyCost(entries) {
 			var totCost = 0;
 			entries.forEach(function(entry) {
-				totCost = totCost - entry.cost;
+				if (entry.isCost) totCost = totCost - entry.cost;
+				else totCost = totCost + entry.cost;
 			});
 			return totCost;
 		};

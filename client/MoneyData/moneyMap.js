@@ -8,86 +8,57 @@
 
 		moneyDataService.getMoneyLocations().success(function(resp) {
 			console.log(resp.listOfLocations);
+			initAutocomplete(resp.listOfLocations);
 		}).error(function(err, status) {
 			$location.path('/login'); 
 		});
 
-
-		//initAutocomplete();
-		var map;
-		iniMap();
+		//iniMap();
 		//locationManager.init();
 
-		function iniMap() {
-			map = new google.maps.Map(document.getElementById('googleMap'), {
-          		center: {lat: -34.397, lng: 150.644},
-          		zoom: 8
-        	});
-        	console.log("Hello");
-		};
-
-		function initAutocomplete() {
+		function initAutocomplete(entries) {
         	var map = new google.maps.Map(document.getElementById('googleMap'), {
-          		center: {lat: -33.8688, lng: 151.2195},
-          		zoom: 13,
+          		center: {lat: 38.5, lng: -98},
+          		zoom: 4,
           		mapTypeId: google.maps.MapTypeId.ROADMAP
         	});
-
-        	// Create the search box and link it to the UI element.
-        	var input = document.getElementById('pac-input');
-       	 	var searchBox = new google.maps.places.SearchBox(input);
-        	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
-
-        	// Bias the SearchBox results towards current map's viewport.
-        	map.addListener('bounds_changed', function() {
-          		searchBox.setBounds(map.getBounds());
-        	});
-
-        	var markers = [];
-        	// Listen for the event fired when the user selects a prediction and retrieve
-        	// more details for that place.
-        	searchBox.addListener('places_changed', function() {
-          		var places = searchBox.getPlaces();
-
-          		if (places.length == 0) {
-            		return;
-          		}
-
-          		// Clear out the old markers.
-          		markers.forEach(function(marker) {
-            		marker.setMap(null);
-          		});
-          		markers = [];
-
-	          	// For each place, get the icon, name and location.
-	          	var bounds = new google.maps.LatLngBounds();
-	          	places.forEach(function(place) {
-
-		            var icon = {
-		              	url: place.icon,
-		              	size: new google.maps.Size(71, 71),
-		              	origin: new google.maps.Point(0, 0),
-		              	anchor: new google.maps.Point(17, 34),
-		              	scaledSize: new google.maps.Size(25, 25)
-		            };
-
-	            	// Create a marker for each place.
-	            	markers.push(new google.maps.Marker({
-	              		map: map,
-	              		icon: icon,
-	              		title: place.name,
-	              		position: place.geometry.location
-	            	}));
-
-	            	if (place.geometry.viewport) {
-	              		// Only geocodes have viewport.
-	              		bounds.union(place.geometry.viewport);
-	            	} else {
-	              		bounds.extend(place.geometry.location);
-	            	}
-	          	});
-	          	map.fitBounds(bounds);
-        	});
+        	codeAddress(map, entries);
       	};
-    }
+
+      	function codeAddress(map, entries) {
+      		var geocoder = new google.maps.Geocoder;
+		    entries.forEach(function(entry) {
+		    	if(entry.location === null) {
+				} else {
+				    geocoder.geocode({'address': entry.location}, function(results, status) {
+				    	console.log(entry.location);
+				      	if (status == google.maps.GeocoderStatus.OK) {
+				        	//map.setCenter(results[0].geometry.location);
+				        	var marker = new google.maps.Marker({
+				            	map: map,
+				            	position: results[0].geometry.location,
+				            	title: entry.description
+				        	});
+				      	} else {
+				      		console.log("I hit here");
+				       	 	alert("Geocode was not successful for the following reason: " + status);
+				      	}
+				    });
+				}
+			});
+
+		};
+
+		function delay(ms) {
+	        var cur_d = new Date();
+	        var cur_ticks = cur_d.getTime();
+	        var ms_passed = 0;
+	        while(ms_passed < ms) {
+	            var d = new Date();  // Possible memory leak?
+	            var ticks = d.getTime();
+	            ms_passed = ticks - cur_ticks;
+	            // d = null;  // Prevent memory leak?
+	        }
+	    };
+    };
 }());

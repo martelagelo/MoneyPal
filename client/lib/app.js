@@ -25,7 +25,6 @@
 			.state("monthCharts", {
 				url:"/monthCharts",
 				templateUrl: "/MoneyCharts/monthCharts.html",
-				controller: "monthChartsController"
 			})
 			.state("header",{
 				url:"/header",
@@ -45,7 +44,6 @@
 			.state("moneyMap", {
 				url:"/moneyMap", 
 				templateUrl:"/MoneyData/moneyMap.html",
-				controller:"moneyMapController"
 			})
 		$httpProvider.interceptors.push('authInterceptor');
 	});	
