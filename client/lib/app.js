@@ -46,6 +46,10 @@
 				url:"/moneyMap", 
 				templateUrl:"/MoneyData/moneyMap.html",
 			})
+			.state("moneyGraphs", {
+				url:"/moneyGraphs",
+				templateUrl:"MoneyData/moneyGraphs.html",
+			})
 		$httpProvider.interceptors.push('authInterceptor');
 	});	
 }());

@@ -5,8 +5,7 @@
 	function dayChartsController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
 
-		console.log($location.search().param); 
-
+		//console.log($location.search().param); 
 		if(user === null) $location.path('/login');
 
 		if ($location.search().param == undefined) {

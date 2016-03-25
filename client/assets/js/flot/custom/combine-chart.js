@@ -5,7 +5,8 @@ var $default_white = "#ffffff";
 var $green = "#8ecf67";
 var $blue = "#12A4F4";
 
-$(function () {    
+$(function () {   
+    console.log("hello"); 
     var data1 = [
         [1354586000000, 153], [1364587000000, 658], [1374588000000, 198],
         [1384589000000, 663], [1394590000000, 801], [1404591000000, 1080],
