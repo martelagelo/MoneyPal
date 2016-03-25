@@ -54,7 +54,7 @@ exports.getCostsByDay = function(req, res) {
 };
 
 exports.getCostsByMonth = function(req, res) {
-	var fields = 'cost isCost';
+	var fields = 'cost isCost day';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, month:req.query.month, year:req.query.year}, select:fields}, function(err, listOfCosts) {
 		if(err) {
 			res.status(500).send({
