@@ -37,7 +37,7 @@ exports.getMoneyEntriesForCalendar = function(req, res) {
 }
 
 exports.getMoneyEntriesByDay = function(req, res) {
-	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, day:req.body.day, month:req.body.month, year:req.body.year}}, function(err, allMoneyEntries) {
+	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, day:req.query.day, month:req.query.month, year:req.query.year}}, function(err, allMoneyEntries) {
 		if(err) {
 			res.status(500).send({
 				status: false
@@ -47,7 +47,6 @@ exports.getMoneyEntriesByDay = function(req, res) {
 			res.status(200).send({
 				status: true,
 				allMoneyEntries: allMoneyEntries,
-				user: req.user
 			});
 		}
 	});

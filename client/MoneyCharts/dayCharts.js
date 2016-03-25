@@ -4,28 +4,50 @@
 
 	function dayChartsController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
-		
+
+		console.log($location.search().param); 
+
 		if(user === null) $location.path('/login');
-		else {
+
+		if ($location.search().param == undefined) {
 			$scope.date = new Date();
 			moneyChartsService.getMoneyEntries().success(function(resp) {
 				$scope.entries = resp.allMoneyEntries;
-				$scope.user = resp.user;
 				$scope.editArray = makeEditArray(resp.allMoneyEntries);
 				$scope.totCost = money_round(calculateTotalDailyCost(resp.allMoneyEntries));
 			}).error(function(err, status) {
 				if (status == 401) {
-					console.log("I hit here");
+					console.log("I hit an error");
 					if(user != null) loginDataService.removeUserInfo();
 					$location.path('/login');
 				}
 				else {
-					console.log("I hit there");
-					$location.path('/login'); 
+					console.log("I hit an error");
+					//$location.path('/login'); 
+				}
+        		return err; 
+			});
+		} else {
+			var param = $location.search().param.split('-');
+			$scope.date = new Date(param[0], param[1], param[2]);
+			moneyChartsService.getMoneyEntriesByDay(param[0], param[1], param[2]).success(function(resp) {
+				$scope.entries = resp.allMoneyEntries;
+				$scope.editArray = makeEditArray(resp.allMoneyEntries);
+				$scope.totCost = money_round(calculateTotalDailyCost(resp.allMoneyEntries));
+			}).error(function(err, status) {
+				if (status == 401) {
+					console.log("I hit an error");
+					if(user != null) loginDataService.removeUserInfo();
+					$location.path('/login');
+				}
+				else {
+					console.log("I hit an error");
+					//$location.path('/login'); 
 				}
         		return err; 
 			});
 		}
+		
 
 		$scope.deleteMoneyEntry = function(entry) {
 			moneyChartsService.deleteMoneyEntry(entry).success(function(resp) {

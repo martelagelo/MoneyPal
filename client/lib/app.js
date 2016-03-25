@@ -1,7 +1,7 @@
 (function() {
 	var app = angular.module('moneyPal');
 
-	app.config(function($stateProvider,$urlRouterProvider,$httpProvider){
+	app.config(function($stateProvider,$urlRouterProvider,$httpProvider, $routeProvider){
 		$urlRouterProvider.when('','/login');
 		$urlRouterProvider.otherwise(function ($injector, $location) {
     		return '/error';
@@ -15,12 +15,14 @@
 			.state("dayCharts", {
 				url:"/dayCharts",
 				templateUrl: "/MoneyCharts/dayCharts.html",
-				controller: "dayChartsController"
+			})
+			.state("dayCharts/:param", {
+				url:"/dayCharts/:param",
+				templateUrl: "/MoneyCharts/dayCharts.html",
 			})
 			.state("newMoneyEntry", {
 				url:"/newMoneyEntry",
 				templateUrl: "/MoneyCharts/newMoneyEntry.html",
-				controller: "newMoneyEntryController"
 			})
 			.state("monthCharts", {
 				url:"/monthCharts",
@@ -29,7 +31,6 @@
 			.state("header",{
 				url:"/header",
 				templateUrl:"/Layouts/header.html",
-				controller:"headerController"
 			})
 			.state("sidebar", {
 				url:"/sidebar",

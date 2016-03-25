@@ -19,8 +19,9 @@
 					'password': $scope.userinfo.password
 				}).then(function(user) {
 					loginDataService.setUserInfo(user);
-					//console.log(user);
-					$location.path('/dayCharts');
+					var d = new Date();
+					var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
+					$location.path('/dayCharts/').search({param: param});
 				}, function(err){
 					swal("Incorrect", "Wrong username or password", "error");
 					$('#user-password').val('');

@@ -34,15 +34,20 @@ angular.module('moneyPal.moneyCharts')
 			return $http.get('/charts/cost/calendar');
 		}
 
+		var getMoneyEntriesByDay = function(year, month, day) {
+			return $http.get('/dayChartsByDay?year='+year+'&month='+month+'&day='+day);
+		}
+
 		return {
-			getMoneyEntries  : getMoneyEntries,
-			deleteMoneyEntry : deleteMoneyEntry,
-			updateMoneyEntry : updateMoneyEntry,
-			createMoneyEntry : createMoneyEntry,
-			getCostDay		 : getCostDay, 
-			getCostMonth     : getCostMonth, 
-			getCostYear		 : getCostYear, 
-			getCalendarCosts : getCalendarCosts,
+			getMoneyEntries  	 : getMoneyEntries,
+			deleteMoneyEntry 	 : deleteMoneyEntry,
+			updateMoneyEntry 	 : updateMoneyEntry,
+			createMoneyEntry 	 : createMoneyEntry,
+			getCostDay		 	 : getCostDay, 
+			getCostMonth     	 : getCostMonth, 
+			getCostYear		 	 : getCostYear, 
+			getCalendarCosts 	 : getCalendarCosts,
+			getMoneyEntriesByDay : getMoneyEntriesByDay,
 		}
 
 });

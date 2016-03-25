@@ -39,7 +39,9 @@
 					};
 					moneyChartsService.createMoneyEntry(entry).success(function(response) {
 						swal("Success!", "Entry Created!", "success");
-						$location.path('/dayCharts');
+						var d = new Date();
+						var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
+						$location.path('/dayCharts/').search({param: param});
 					}).error(function(err) {
 						if(err.status === 401) $state.go('/login');
 					})
