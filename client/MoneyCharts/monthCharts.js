@@ -53,6 +53,7 @@
 						title: "Cost: " + entry.cost,
 						start: new Date(entry.year, entry.month, entry.day),
 						className : 'cool-one-bg',
+						url: '#/dayCharts/?param='+entry.year+'-'+entry.month+'-'+entry.day,
 					}
 				);
 			});
