@@ -18,6 +18,24 @@ exports.getMoneyEntries = function(req, res) {
 	});
 };
 
+exports.getMoneyEntriesForCalendar = function(req, res) {
+	var fields = 'cost isCost year month day';
+	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id}, select:fields}, function(err, entries) {
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		}
+		else {
+			res.status(200).send({
+				status: true,
+				entries: entries,
+				user: req.user
+			});
+		}
+	});
+}
+
 exports.getMoneyEntriesByDay = function(req, res) {
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, day:req.body.day, month:req.body.month, year:req.body.year}}, function(err, allMoneyEntries) {
 		if(err) {
@@ -54,7 +72,7 @@ exports.getCostsByDay = function(req, res) {
 };
 
 exports.getCostsByMonth = function(req, res) {
-	var fields = 'cost isCost day';
+	var fields = 'cost isCost';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id, month:req.query.month, year:req.query.year}, select:fields}, function(err, listOfCosts) {
 		if(err) {
 			res.status(500).send({

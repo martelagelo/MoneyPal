@@ -30,6 +30,10 @@ angular.module('moneyPal.moneyCharts')
 			return $http.get('/charts/cost/year?year='+year);
 		}
 
+		var getCalendarCosts = function() {
+			return $http.get('/charts/cost/calendar');
+		}
+
 		return {
 			getMoneyEntries  : getMoneyEntries,
 			deleteMoneyEntry : deleteMoneyEntry,
@@ -38,6 +42,7 @@ angular.module('moneyPal.moneyCharts')
 			getCostDay		 : getCostDay, 
 			getCostMonth     : getCostMonth, 
 			getCostYear		 : getCostYear, 
+			getCalendarCosts : getCalendarCosts,
 		}
 
 });
