@@ -49,6 +49,11 @@
 			});
 		}
 		
+		$scope.goToToday = function() {
+			var d = new Date();
+			var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
+			$location.path('/dayCharts/').search({param: param});
+		}
 
 		$scope.deleteMoneyEntry = function(entry) {
 			moneyChartsService.deleteMoneyEntry(entry).success(function(resp) {

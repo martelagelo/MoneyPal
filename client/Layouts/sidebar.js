@@ -3,6 +3,5 @@
 	.controller('sidebarController', sidebarController);
 
 	function sidebarController($scope, $location, loginDataService) {
-
 	};
 }());
