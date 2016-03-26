@@ -98,12 +98,12 @@
                                   </td>
                                   <td class="hidden-phone" ng-hide="isEdit(entry)">
                                     <span ng-show="entry.isCost" class="label label label-danger">Expenditure</span>
-                                    <span ng-hide="entry.isCost" class="label label label-info">Gain</span>
+                                    <span ng-hide="entry.isCost" class="label label label-info">Income</span>
                                   </td>
                                   <td class="hidden-phone" ng-show="isEdit(entry)">
                                     <select id="{{entry._id}}_select">
                                       <option value="expenditure">Expenditure</option>
-                                      <option value="gain">Gain</option>
+                                      <option value="gain">Income</option>
                                     </select>
                                   </td>
                                   <td class="hidden-phone" ng-hide="isEdit(entry)">{{entry.date|date:'longDate'}}</td>
