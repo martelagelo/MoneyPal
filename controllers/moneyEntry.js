@@ -170,7 +170,7 @@ exports.updateMoneyEntry = function(req, res, next) {
 };
 
 exports.getMoneyLocations = function(req, res, next) {
-	var fields = 'location description';
+	var fields = 'location description latlng';
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.user._id}, select: fields}, function(err, listOfLocations) {
 		if(err) {
 			res.status(500).send({

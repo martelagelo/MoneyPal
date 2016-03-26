@@ -7,6 +7,7 @@ var MoneyEntrySchema = new Schema({
 	description			 : String,
 	cost 				 : Number, 
 	location			 : {type: String, default: null}, 
+	latlng		   		 : {lat: Number, lng: Number},
 	userId				 : {type: Schema.Types.ObjectId, ref: 'User', defualt: null},
 	date				 : {type: Date, default: Date.now},
 	month                : Number,
