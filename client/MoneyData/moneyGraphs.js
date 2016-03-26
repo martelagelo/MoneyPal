@@ -13,6 +13,9 @@
 		var $blue = "#12A4F4";
 
 		moneyChartsService.getCalendarCosts().success(function(data){
+			$scope.totTransactions = data.entries.length;
+			$scope.net = calcNetCost(data.entries);
+
 			var events = makeDataPoints(mergeSort(calculateDailyCosts(data.entries)));
 
 			var sin = [], cos = [];
@@ -95,6 +98,14 @@
 			}
 		};
 
+		function calcNetCost(entries) {
+			var cost = 0;
+			entries.forEach(function(entry) {
+				if (entry.isCost) cost = cost - entry.cost;
+				else cost = cost + entry.cost;
+			});
+			return cost;
+		}
 		function calculateDailyCosts(entries) {
 			var dict = [];
 			var index = [];
