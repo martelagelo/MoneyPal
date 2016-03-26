@@ -10,6 +10,7 @@
 
 		if ($location.search().param == undefined) {
 			$scope.date = new Date();
+			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
 				$scope.entries = resp.allMoneyEntries;
 				$scope.editArray = makeEditArray(resp.allMoneyEntries);
@@ -29,6 +30,7 @@
 		} else {
 			var param = $location.search().param.split('-');
 			$scope.date = new Date(param[0], param[1], param[2]);
+			$scope.allTransactions = false;
 			moneyChartsService.getMoneyEntriesByDay(param[0], param[1], param[2]).success(function(resp) {
 				$scope.entries = resp.allMoneyEntries;
 				$scope.editArray = makeEditArray(resp.allMoneyEntries);
