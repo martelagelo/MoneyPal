@@ -15,6 +15,8 @@
 		moneyChartsService.getCalendarCosts().success(function(data){
 			$scope.totTransactions = data.entries.length;
 			$scope.net = calcNetCost(data.entries);
+			$scope.avgNet = calcAvgNetCost(data.entries);
+			$scope.maxNet = calcMaxNetCost(data.entries);
 
 			var events = makeDataPoints(mergeSort(calculateDailyCosts(data.entries)));
 
@@ -106,6 +108,24 @@
 			});
 			return cost;
 		}
+
+		function calcAvgNetCost(entries) {
+			var cost = calcNetCost(entries);
+			var numDays = calculateDailyCosts(entries).length;
+			return cost/numDays;
+		}
+
+		function calcMaxNetCost(entries) {
+			var maxCost = 0;
+			var dict = calculateDailyCosts(entries);
+			dict.forEach(function(entry) {
+				if (entry.cost > maxCost){
+					maxCost = entry.cost;
+				}
+			});
+			return maxCost;
+		}
+
 		function calculateDailyCosts(entries) {
 			var dict = [];
 			var index = [];
