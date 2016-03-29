@@ -46,6 +46,23 @@ exports.changePassword = function(req, res, next) {
 	});
 };
 
+exports.changeProfile = function(req, res, next) {
+	var user = req.user;
+	User.findByIdAndUpdate(user._id, {$set: req.body.data}, function(err, user) {
+		if (!err) {
+      		res.status(200).send({
+      			status: true,
+      			user: user,
+      		});
+      	} else {
+      		res.status(401).send({
+      			status: false,
+      			msg: "Profile could not be changed"
+      		});
+      	}
+	});
+};
+
 exports.comparePasswords = function(req, res, next) {
 	var user = req.user;
 	if(user.password == req.body.data) {

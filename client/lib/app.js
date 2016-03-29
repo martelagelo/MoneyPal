@@ -40,7 +40,10 @@
 			.state("changePassword", {
 				url:"/changePassword",
 				templateUrl:"/Login/changePassword.html",
-				controller:"changePasswordController"
+			})
+			.state("profile", {
+				url:"/profile",
+				templateUrl: "Login/profile.html",
 			})
 			.state("moneyMap", {
 				url:"/moneyMap", 

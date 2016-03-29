@@ -1,5 +1,5 @@
 (function() {
-	angular.module('moneyPal.login')
+	angular.module('moneyPal.layout')
 	.controller('sidebarController', sidebarController);
 
 	function sidebarController($scope, $location, loginDataService) {

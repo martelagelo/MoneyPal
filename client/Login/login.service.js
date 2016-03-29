@@ -46,6 +46,12 @@ angular.module("moneyPal.login")
 			return $http.post('/login/compare_passwords', {data:password});
 		};
 
+		/**************Profile********************/
+		var changeProfile = function(profile) {
+			//console.log(profile);
+			return $http.put('/login/change_profile', {data:profile});
+		}
+
 		return {
 			getUserInfo      : getUserInfo,
 			setUserInfo      : setUserInfo,
@@ -53,6 +59,7 @@ angular.module("moneyPal.login")
 			logout           : logout,
 			removeUserInfo   : removeUserInfo,
 			changePassword   : changePassword,
-			comparePasswords : comparePasswords
+			comparePasswords : comparePasswords,
+			changeProfile 	 : changeProfile,
 		};
 	});

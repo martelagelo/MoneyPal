@@ -24,6 +24,8 @@ module.exports = function(app, passport) {
 
 	app.post('/login/compare_passwords', isAuthenticated, loginController.comparePasswords);
 
+	app.put('/login/change_profile', isAuthenticated, loginController.changeProfile);
+
 	app.post('/logout', isAuthenticated, loginController.logout);
 
 	app.get('/dayCharts/:id', isAuthenticated, moneyEntryController.getMoneyEntries);
