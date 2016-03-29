@@ -21,10 +21,9 @@
 						salary	  : $scope.salary
 					};
 					loginDataService.changeProfile(profile).success(function(user) {
-						console.log(user);
-						loginDataService.setUserInfo(user);
+						loginDataService.setUserInfo(user.user);
 						swal("Success!", "Entry Created!", "success");
-						//$scope.$broadcast('changeProf');
+						$scope.$broadcast('changeProf');
 					}).error(function(err) {
 						console.log("There was an error with changing the profile");
 						swal("Error", "An error occured when changing your profile", "error");
