@@ -12,6 +12,11 @@
 		$scope.$on('updateCosts', function(event, args) {
 			getCosts();
 		});
+		$scope.$on('changeProf', function(event,args) {
+			user = loginDataService.getUserInfo();
+			$scope.name = user.firstName + " " + user.lastName;
+			getCosts();
+		});
 
 		function getCosts() {
 			var date = new Date();
@@ -34,8 +39,12 @@
 				}).error(function(err) {
 					//Try to do nothing...
 				});
-			}).error(function(err) {
-				//Try to do nothing...
+			}).error(function(err, status) {
+				if (status == 401) {
+					console.log("I hit an error in header");
+					if(user != null) loginDataService.removeUserInfo();
+					$location.path('/login');
+				}
 			});
 		};
 

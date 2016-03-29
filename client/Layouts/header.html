@@ -86,7 +86,7 @@
                         <p>For the Day <span class="text-success">{{dayPercent}}% of salary</span></p>
                         <div class="progress progress-xs">
                             <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{dayPercent}}%">
-                                <span class="sr-only">40% Complete (success)</span>
+                                <!--<span class="sr-only">40% Complete (success)</span>-->
                             </div>
                         </div>
                     </li>
@@ -95,7 +95,7 @@
                         <p>For the Month <span class="text-info">{{monthPercent}}% of salary</span></p>
                         <div class="progress progress-xs">
                             <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{monthPercent}}%">
-                                <span class="sr-only">40% Complete (info)</span>
+                                <!--<span class="sr-only">40% Complete (info)</span>-->
                             </div>
                         </div>
                     </li>
@@ -104,7 +104,7 @@
                         <p>For the Year <span class="text-danger">{{yearPercent}}% of salary</span></p>
                         <div class="progress progress-xs">
                             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{yearPercent}}%">
-                                <span class="sr-only">40% Complete (danger)</span>
+                                <!--<span class="sr-only">40% Complete (danger)</span>-->
                             </div>
                         </div>
                     </li>
@@ -116,7 +116,7 @@
                     </a>
                     <ul class="dropdown-menu sm fadeInUp animated messages">
                         <li class="dropdown-content">
-                            <a href="#">Edit Profile</a>
+                            <a ui-sref="profile">View/Edit Profile</a>
                             <a ui-sref="changePassword">Change Password</a>
                             <a href="#">Settings</a>
                             <a ng-click = "logout()">Logout</a>

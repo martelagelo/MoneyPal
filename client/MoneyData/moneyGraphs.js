@@ -22,9 +22,6 @@
 			var events = makeDataPoints(mergeSort(calculateDailyCosts(data.entries)));
 			var eventsMonthly = makeMonthlyDataPoints(mergeSort(calculateMonthlyCosts(data.entries)));
 
-			console.log(events);
-			console.log(eventsMonthly);
-
 			var sin = [], cos = [];
 			for (var i = 0; i < 14; i += 0.1) {
 				sin.push([i, Math.sin(i)]);
@@ -137,7 +134,7 @@
 			var maxCost = 0;
 			var dict = calculateDailyCosts(entries);
 			dict.forEach(function(entry) {
-				if (entry.cost > maxCost){
+				if (entry.cost > maxCost) {
 					maxCost = entry.cost;
 				}
 			});
