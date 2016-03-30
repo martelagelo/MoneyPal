@@ -7,12 +7,12 @@ var bodyParser = require('body-parser');
 var http = require('http');
 
 var engines = require('consolidate');
-var expressSession = require('express-session');
+//var expressSession = require('express-session');
 var app = express();
 
-app.use(expressSession({secret: 'mySecretKey'}));
+//app.use(expressSession({secret: 'mySecretKey'}));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+//app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 
 var Config = require('config-js');
