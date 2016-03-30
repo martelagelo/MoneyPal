@@ -1,27 +1,37 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'start' ]
-2 info using npm@1.4.28
-3 info using node@v0.10.40
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+2 info using npm@1.4.29
+3 info using node@v0.10.42
 4 verbose node symlink /usr/bin/node
-5 verbose run-script [ 'prestart', 'start', 'poststart' ]
-6 info prestart MoneyPal@0.0.0
-7 info start MoneyPal@0.0.0
-8 verbose unsafe-perm in lifecycle true
-9 info MoneyPal@0.0.0 Failed to exec start script
-10 error MoneyPal@0.0.0 start: `node ./bin/www`
-10 error Exit status 8
-11 error Failed at the MoneyPal@0.0.0 start script.
-11 error This is most likely a problem with the MoneyPal package,
-11 error not with npm itself.
-11 error Tell the author that this fails on your system:
-11 error     node ./bin/www
-11 error You can get their info via:
-11 error     npm owner ls MoneyPal
-11 error There is likely additional logging output above.
-12 error System Linux 3.13.0-63-generic
-13 error command "/usr/bin/node" "/usr/bin/npm" "start"
-14 error cwd /home/michael/Documents/Code/MoneyPal
-15 error node -v v0.10.40
-16 error npm -v 1.4.28
-17 error code ELIFECYCLE
-18 verbose exit [ 1, true ]
+5 warn deprecated This version of npm lacks support for important features,
+6 warn deprecated such as scoped packages, offered by the primary npm
+7 warn deprecated registry. Consider upgrading to at least npm@2, if not the
+8 warn deprecated latest stable version. To upgrade to npm@2, run:
+9 warn deprecated npm -g install npm@latest-2
+10 warn deprecated To upgrade to the latest stable version, run:
+11 warn deprecated npm -g install npm@latest
+12 warn deprecated (Depending on how Node.js was installed on your system, you
+13 warn deprecated may need to prefix the preceding commands with `sudo`, or if
+14 warn deprecated on Windows, run them from an Administrator prompt.)
+15 warn deprecated If you're running the version of npm bundled with
+16 warn deprecated Node.js 0.10 LTS, be aware that the next version of 0.10 LTS
+17 warn deprecated will be bundled with a version of npm@2, which has some small
+18 warn deprecated backwards-incompatible changes made to `npm run-script` and
+19 warn deprecated semver behavior.
+20 error install Couldn't read dependencies
+21 error Failed to parse json
+21 error Unexpected token }
+22 error File: /home/michael/Documents/Code/moneyPal/package.json
+23 error Failed to parse package.json data.
+23 error package.json must be actual JSON, not just JavaScript.
+23 error
+23 error This is not a bug in npm.
+23 error Tell the package author to fix their package.json file. JSON.parse
+24 error System Linux 3.13.0-77-generic
+25 error command "/usr/bin/node" "/usr/bin/npm" "install"
+26 error cwd /home/michael/Documents/Code/moneyPal
+27 error node -v v0.10.42
+28 error npm -v 1.4.29
+29 error file /home/michael/Documents/Code/moneyPal/package.json
+30 error code EJSONPARSE
+31 verbose exit [ 1, true ]

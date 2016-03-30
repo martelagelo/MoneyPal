@@ -5,14 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var http = require('http');
+var CronJob = require('cron').CronJob;
 
 var engines = require('consolidate');
-//var expressSession = require('express-session');
+var expressSession = require('express-session');
 var app = express();
 
-//app.use(expressSession({secret: 'mySecretKey'}));
+app.use(expressSession({secret: 'mySecretKey'}));
 app.use(bodyParser.json());
-//app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 app.use(cookieParser());
 
 var Config = require('config-js');
@@ -70,3 +73,21 @@ db.once('open',function(){
 	logger.info("Server started on port " + GLOBAL.CONFIG.get("server.port"));
 
 });
+
+/******************************************************************************************/
+/*Cron Job that sends report Requests to S3*/
+/******************************************************************************************/
+var job = new CronJob({
+	cronTime: '00 30 11 * * 1-7',
+	onTick: function() {
+		expressSession.all(function(err, sessions) {
+	        for (var i = 0; i < sessions.length; i++) {
+	            expressSession.get(sessions[i], function() {} );
+	        }
+	    });
+	}
+});
+job.start();
+/******************************************************************************************/
+/*login routes*/
+/******************************************************************************************/

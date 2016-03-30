@@ -18,6 +18,7 @@ var isAuthenticated = function (req, res, next) {
 };
 
 module.exports = function(app, passport) {
+
 	app.post('/login', loginController.login);
 
 	app.put('/login/change_password', isAuthenticated, loginController.changePassword);
