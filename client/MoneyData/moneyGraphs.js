@@ -194,7 +194,7 @@
 		function makeMonthlyDataPoints(entries) {
 			var arr = [];
 			entries.forEach(function(entry) {
-				arr.push([gd(entry.year, entry.month, 1), entry.cost])
+				arr.push([gd(entry.year, entry.month, 1), money_round(entry.cost)])
 			});
 			return arr;
 		};

@@ -20,34 +20,34 @@
                     <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <div class="fs1" aria-hidden="true" data-icon="&#xe129;"></div>
                     </a>
-                    <span class="info-label red-bg animated rubberBand">7</span>
+                    <!--<span class="info-label red-bg animated rubberBand">7</span>-->
                     <ul class="dropdown-menu flipInX animated messages">
-                        <li class="dropdown-header">You have 7 messages</li>
+                        <li class="dropdown-header">Stocks</li>
                         <li>
                             <div class="icon">
-                                <img src="assets/img/admin10.png" alt="Browser">
+                                <img src="assets/img/admin4.png" alt="Browser">
                             </div>
                             <div class="details">
-                                <strong class="text-danger">Willams</strong>
-                                <span>Firefox is a free, open-source web browser from Mozilla.</span>
+                                <strong class="text-success">{{stocks[0].name}}</strong>
+                                <span>$ {{stocks[0].lastTradePriceOnly}}</span>
                             </div>
                         </li>
                         <li>
                             <div class="icon">
-                                <img src="assets/img/admin6.png" alt="Browser">
+                                <img src="assets/img/admin4.png" alt="Browser">
                             </div>
                             <div class="details">
-                                <strong class="text-info">Sunny</strong>
-                                <span>Internet Explorer is a free web browser from Microsoft.</span>
+                                <strong class="text-info">{{stocks[1].name}}</strong>
+                                <span>$ {{stocks[1].lastTradePriceOnly}}</span>
                             </div>
                         </li>
                         <li>
                             <div class="icon">
-                                <img src="assets/img/admin3.png" alt="Browser">
+                                <img src="assets/img/admin4.png" alt="Browser">
                             </div>
                             <div class="details">
-                                <strong class="text-info">James</strong>
-                                <span>Safari is known for its sleek design and ease of use.</span>
+                                <strong class="text-danger">{{stocks[2].name}}</strong>
+                                <span>$ {{stocks[2].lastTradePriceOnly}}</span>
                             </div>
                         </li>
                     </ul>

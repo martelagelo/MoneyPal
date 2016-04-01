@@ -1,13 +1,20 @@
 (function() {
 	var app = angular.module('moneyPal.layout', []);
 
-	var headerController = function($scope, $interval, $location, loginDataService, moneyChartsService, authToken, $state) {
+	var headerController = function($scope, $interval, $location, loginDataService, moneyChartsService, authToken, $state, layoutService) {
 		var user = loginDataService.getUserInfo();
 
 		if(user == null || user == undefined) $location.path('/login');
 		$scope.name = user.firstName + " " + user.lastName;
 
 		getCosts();
+
+		//SPY, NDAQ, DIA
+		layoutService.getStock('DIA', '^GSPC', '^IXIC').success(function(resp) {
+			$scope.stocks = resp.stocks;
+		}).error(function(err) {
+			console.log("Could not get yahoo data");
+		});
 
 		$scope.$on('updateCosts', function(event, args) {
 			getCosts();

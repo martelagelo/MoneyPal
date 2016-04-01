@@ -1,5 +1,6 @@
 var loginController = require('../controllers/users.js');
 var moneyEntryController = require('../controllers/moneyEntry.js');
+var miscController = require('../controllers/misc.js');
 var ObjectId = require('mongoose').Schema.Types.ObjectId;
 var config = GLOBAL.CONFIG;
 
@@ -48,4 +49,6 @@ module.exports = function(app, passport) {
 	app.delete('/dayCharts/:id', isAuthenticated, moneyEntryController.deleteMoneyEntry);
 
 	app.get('/data/locations', isAuthenticated, moneyEntryController.getMoneyLocations);
+
+	app.get('/stock', miscController.getStockPrice);
 };
