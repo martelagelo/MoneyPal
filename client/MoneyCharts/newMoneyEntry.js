@@ -7,7 +7,6 @@
 		
 		if(user === null) $location.path('/login');
 		var coord;
-		getLocation();
 
 		$scope.submitMoneyEntry = function() {
 			if($scope.description && $scope.cost && $scope.entryType) {

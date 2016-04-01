@@ -96,11 +96,11 @@
                                     <span class="name">{{entry.description}}</span>
                                   </td>
                                   <td ng-show="isEdit(entry)">
-                                    <input type="text" placeholder="{{entry.description}}" id="{{entry._id}}_des" ng-model="newDescription">
+                                    <input type="text" placeholder="{{entry.description}}" id="{{entry._id}}_des">
                                   </td>
                                   <td class="hidden-phone" ng-hide="isEdit(entry)">${{entry.cost}}</td>
                                   <td class="hidden-phone" ng-show="isEdit(entry)">
-                                    <input type="number" placeholder="{{entry.cost}}" id="{{entry._id}}_cost" ng-model="newCost">
+                                    <input type="number" placeholder="{{entry.cost}}" id="{{entry._id}}_cost">
                                   </td>
                                   <td class="hidden-phone" ng-hide="isEdit(entry)">
                                     <span ng-show="entry.isCost" class="label label label-danger">Expenditure</span>
@@ -139,7 +139,41 @@
                                   <td>
 
                                 </tr>
-                                
+
+                                <tr ng-hide="isNewEntry">
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td>
+                                    <button type="button" class="btn btn-xs btn-primary" ng-click="toggleNewEntry()">New Entry</button>
+                                  </td>
+                                </tr>
+                                <tr ng-show="isNewEntry">
+                                  <td>
+                                    <input type="checkbox" class="no-margin">
+                                  </td>
+                                  <td>
+                                    <input type="text" placeholder="Transaction Description" ng-model="newDescription">
+                                  </td>
+                                  <td>
+                                    <input type="number" placeholder="Cost" ng-model="newCost">
+                                  </td>
+                                  <td>
+                                    <select ng-model="newSelect">
+                                      <option value="expenditure">Expenditure</option>
+                                      <option value="gain">Income</option>
+                                    </select>
+                                  </td>
+                                  <td> 
+                                    <input type="date" ng-model="newDate">
+                                  </td>
+                                  <td>
+                                    <button type="button" class="btn btn-xs btn-primary" ng-click="createMoneyEntry()">Create Entry</button>
+                                    <button type="button" class="btn btn-xs btn-danger" ng-click="toggleNewEntry()">Cancel</button>
+                                  </td>
+                                </tr>
                                 
                               </tbody>
                             </table>

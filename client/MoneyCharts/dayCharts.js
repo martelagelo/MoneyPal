@@ -8,6 +8,10 @@
 		//console.log($location.search().param); 
 		if(user === null) $location.path('/login');
 
+		$scope.isNewEntry = false;
+		var coord;
+		getLocation();
+
 		if ($location.search().param == undefined) {
 			$scope.date = new Date();
 			$scope.allTransactions = true;
@@ -70,6 +74,41 @@
 			});
 		};
 
+		$scope.createMoneyEntry = function() {
+			if($scope.newDescription && $scope.newCost && $scope.newSelect) {
+
+				if ($scope.newDate) var newDate = $scope.newDate;
+				else var newDate = new Date();
+
+				if ($scope.newSelect == "gain") var selectBool = false;
+				else var selectBool = true;
+
+				var entry = {
+					entry: {
+						date        : newDate,
+						description : $scope.newDescription,
+						cost        : $scope.newCost,
+						userId      : user._id,
+						isCost		: selectBool,
+						year		: newDate.getFullYear(),
+						month		: newDate.getMonth(),
+						day 		: newDate.getDate(),
+						dayOfWeek   : newDate.getDay(),
+						location  	: $scope.curLocation,
+						latlng      : {lat : coord.lat, lng : coord.lng},
+					}
+				};
+
+				moneyChartsService.createMoneyEntry(entry).success(function(response) {
+					swal("Success!", "Entry Created!", "success");
+					$state.reload();
+					$scope.$broadcast('updateCosts');
+				}).error(function(err) {
+					if(err.status === 401) $state.go('/login');
+				});
+			} else swal("Error", "An entry is missing.", "error");
+		};
+
 		$scope.editMoneyEntry = function(Entry) {
 			
 			var select = document.getElementById(Entry._id+"_select");
@@ -95,7 +134,7 @@
 			};
 			moneyChartsService.updateMoneyEntry(submitMoneyEntry, Entry._id).success(function(response){
 				swal("Success!", "Entry updated!", "success");
-				$state.reload();
+				$state.go('/dayCharts');
 				$scope.$broadcast('updateCosts');
 			}).error(function(err){
 				if(err.status === 401) $state.go('/login');
@@ -114,6 +153,11 @@
 				document.getElementById(entry._id+"_cost").value = entry.cost;
 			}
 		};
+
+		$scope.toggleNewEntry = function() {
+			$scope.isNewEntry = !$scope.isNewEntry;
+			if ($scope.isNewEntry == true) getLocation();
+		}
 
 		function makeEditArray(entries) {
 			var arr = [];
@@ -135,7 +179,45 @@
 
 		function money_round(num) {
     		return Math.ceil(num * 100) / 100;
-		}
+		};
+
+		function getLocation() {
+			if (navigator.geolocation) {
+		    	navigator.geolocation.getCurrentPosition(function(position) {
+		      	var pos = {
+		        	lat: position.coords.latitude,
+		        	lng: position.coords.longitude
+		      	};
+		      	coord = pos;
+		      	geocodeLatLng(pos);
+		    }, function() {
+		      	handleLocationError(true, infoWindow);
+		    });
+		  	} else {
+		    	// Browser doesn't support Geolocation
+		    	handleLocationError(false, infoWindow);
+			}
+		};
+
+		function geocodeLatLng(pos) {
+		  	var geocoder = new google.maps.Geocoder;
+		  	geocoder.geocode({'location': pos}, function(results, status) {
+		    	if (status === google.maps.GeocoderStatus.OK) {
+		      		if (results[1]) {
+		        		$scope.curLocation = String(results[1].formatted_address);
+		        		console.log($scope.curLocation);
+		      		} else {
+		        		window.alert('No results found');
+		      		}
+		    	} else {
+		      		window.alert('Geocoder failed due to: ' + status);
+		    	}
+		  });
+		};
+
+		function handleLocationError(browserHasGeolocation, infoWindow) {
+			//Do Something;
+		};
 	
 	};
 }());
