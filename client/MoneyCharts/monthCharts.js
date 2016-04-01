@@ -50,7 +50,7 @@
 			arr.forEach(function(entry) {
 				events.push(
 					{
-						title: "Cost: " + entry.cost,
+						title: "Cost: $ " + money_round(entry.cost),
 						start: new Date(entry.year, entry.month, entry.day),
 						className : 'cool-one-bg',
 						url: '#/dayCharts/?param='+entry.year+'-'+entry.month+'-'+entry.day,
@@ -58,6 +58,10 @@
 				);
 			});
 			return events;
+		};
+
+		function money_round(num) {
+			return Math.ceil(num * 100)/100;
 		};
 	};
 
