@@ -28,6 +28,10 @@
 				url:"/monthCharts",
 				templateUrl: "/MoneyCharts/monthCharts.html",
 			})
+			.state("automaticEntry", {
+				url:"/automaticEntry",
+				templateUrl: "MoneyCharts/automaticEntry.html",
+			})
 			.state("header",{
 				url:"/header",
 				templateUrl:"/Layouts/header.html",
