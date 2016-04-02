@@ -10,9 +10,11 @@
 
 		$scope.isNewEntry = false;
 		var coord;
-		getLocation();
+		//getLocation();
+		var Param;
 
 		if ($location.search().param == undefined) {
+			Param = null;
 			$scope.date = new Date();
 			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
@@ -32,6 +34,8 @@
         		return err; 
 			});
 		} else {
+			Param = $location.search().param;
+			console.log(Param);
 			var param = $location.search().param.split('-');
 			$scope.date = new Date(param[0], param[1], param[2]);
 			$scope.allTransactions = false;
@@ -101,7 +105,12 @@
 
 				moneyChartsService.createMoneyEntry(entry).success(function(response) {
 					swal("Success!", "Entry Created!", "success");
-					$state.reload();
+					//$state.reload();
+					$scope.entries.push(entry.entry);
+					$scope.editArray = makeEditArray($scope.entries);
+					$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
+					$scope.toggleNewEntry();
+
 					$scope.$broadcast('updateCosts');
 				}).error(function(err) {
 					if(err.status === 401) $state.go('/login');
@@ -134,7 +143,16 @@
 			};
 			moneyChartsService.updateMoneyEntry(submitMoneyEntry, Entry._id).success(function(response){
 				swal("Success!", "Entry updated!", "success");
-				$state.go('/dayCharts');
+
+				//if (param == null) $state.go('/dayCharts');
+				//else $location.path('/dayCharts/').search({param: Param});
+
+				var index = $scope.entries.indexOf(Entry);
+  				$scope.entries.splice(index, 1); 
+  				$scope.entries.push(response.data);
+
+				$scope.editArray = makeEditArray($scope.entries);
+				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
 				$scope.$broadcast('updateCosts');
 			}).error(function(err){
 				if(err.status === 401) $state.go('/login');
