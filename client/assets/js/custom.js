@@ -5,8 +5,10 @@ var $primary = "#575348";
 var $secondary = "#A4DB79";
 var $orange = "#F38733";
 
+console.log("Hello!");
 // Dropdown Menu
 $( document ).ready(function() {
+  console.log("Ready!");
 	$('#menu > ul > li > a').click(function() {
 		$('#menu li').removeClass('active');
 		$(this).closest('li').addClass('active'); 

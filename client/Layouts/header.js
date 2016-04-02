@@ -25,6 +25,8 @@
 			getCosts();
 		});
 
+		$.getScript("./assets/js/custom.js");
+
 		function getCosts() {
 			var date = new Date();
 
