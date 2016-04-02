@@ -11,7 +11,7 @@ exports.getAutomaticEntries = function(req, res) {
 		else {
 			res.status(200).send({
 				status: true,
-				allEntries: allEntries,
+				data: allEntries,
 				user: req.user
 			});
 		}
@@ -45,7 +45,7 @@ exports.deleteAutomaticEntry = function(req, res) {
 				if(err) res.status(500).send({status: false});
 				res.status(200).send({
 					status: true,
-					request: e
+					data: e
 				})
 			})
 		} else {

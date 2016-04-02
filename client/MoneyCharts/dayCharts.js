@@ -10,11 +10,8 @@
 
 		$scope.isNewEntry = false;
 		var coord;
-		//getLocation();
-		var Param;
 
 		if ($location.search().param == undefined) {
-			Param = null;
 			$scope.date = new Date();
 			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
@@ -34,8 +31,6 @@
         		return err; 
 			});
 		} else {
-			Param = $location.search().param;
-			console.log(Param);
 			var param = $location.search().param.split('-');
 			$scope.date = new Date(param[0], param[1], param[2]);
 			$scope.allTransactions = false;
@@ -143,9 +138,6 @@
 			};
 			moneyChartsService.updateMoneyEntry(submitMoneyEntry, Entry._id).success(function(response){
 				swal("Success!", "Entry updated!", "success");
-
-				//if (param == null) $state.go('/dayCharts');
-				//else $location.path('/dayCharts/').search({param: Param});
 
 				var index = $scope.entries.indexOf(Entry);
   				$scope.entries.splice(index, 1); 

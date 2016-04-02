@@ -4,6 +4,138 @@
 
 	function automaticController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
+		$scope.isCreate = false;
+		$scope.weekDisabled = false;
+		$scope.dayMonthDisabled = false;
+		var week = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+		var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+
+		moneyChartsService.getAutomaticEntries().success(function(result) {
+			$scope.entries = result.data;
+			console.log($scope.entries);
+		}).error(function(err) {
+			console.log("Error in fetching automatic entries");
+		});
+
+		$scope.createEntry = function() {
+			if($scope.newCost && $scope.newDescription && $scope.newSelect) {
+				if(!isNaN($scope.newCost)) {
+
+					if ($scope.newSelect == "expenditure") var costType = true;
+					else var costType = false;
+
+					if($scope.newDayOfWeek || $scope.newMonth) {		//This case if for either weekly on a certain day or yearly on a certain month and day
+
+						if ($scope.newDay) var newDay = $scope.newDay;
+						else if($scope.newMonth) var newDay = 1;
+						else var newDay = null;
+
+						if ($scope.newDayOfWeek) var newDayOfWeek = week.indexOf($scope.newDayOfWeek.toLowerCase());
+						else var newDayOfWeek = null;
+
+						if ($scope.newMonth) var newMonth = months.indexOf($scope.newMonth.toLowerCase());
+						else var newMonth = null;
+
+						if (newDayOfWeek != -1 && newMonth != -1) {
+							var entry = {
+								entry: {
+									userId		: user._id,
+									description : $scope.newDescription,
+									cost 		: $scope.newCost,
+									dayOfWeek 	: newDayOfWeek,
+									month 		: newMonth,
+									day 		: newDay,
+									isCost		: costType
+								}
+							}; 
+							submitEntry(entry);
+
+						} else swal("Error", "Your day of week or month entry is invalid. Please check and try again.", "error");
+					}
+					else if (!$scope.newDayOfWeek && !$scope.newMonth && !$scope.newDay) {				//The case is for every day
+						var entry = {
+							entry: {
+								userId		: user._id,
+								description : $scope.newDescription,
+								cost 		: $scope.newCost,
+								isCost		: costType
+							}
+						}; 
+						submitEntry(entry);
+					} 
+					else {					//This case is for monthly on a certain day
+						var entry = {
+							entry: {
+								userId		: user._id,
+								description : $scope.newDescription,
+								cost 		: $scope.newCost,
+								isCost		: costType,
+								day 		: $scope.newDay,
+							}
+						}; 
+						submitEntry(entry);
+					}
+				} else swal("Error", "Your cost must be a valid number.", "error");
+			} else swal("Error", "You must include a description, cost, and cost type.", "error");
+
+		};
+
+		$scope.deleteAutomaticEntry = function(entry) {
+			moneyChartsService.deleteAutomaticEntry(entry).success(function(results) {
+				var index = $scope.entries.indexOf(entry);
+  				$scope.entries.splice(index, 1); 
+  				swal("Success!", "Entry deleted!", "success");
+			}).error(function(err) {
+				console.log("Failed to delete automatic entry");
+			});
+		}
+
+		$scope.getDayOfWeek = function(entry) {
+			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
+			if (entry.dayOfWeek) return "Every" + week[entry.dayOfWeek].charAt(0).toUpperCase() + week[entry.dayOfWeek].substr(1);
+			//else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "Not Applicable";
+			else return "--"
+		}
+
+		$scope.getMonth = function(entry) {
+			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
+			else if (entry.dayOfWeek) return "--";
+			else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "Monthly";
+			else return "Yearly, during " + months[entry.month].charAt(0).toUpperCase() + months[entry.month].substr(1);
+		}
+
+		$scope.getDay = function(entry) {
+			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "Every Day";
+			else if (entry.dayOfWeek) return "--";
+			//else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "On the " + entry.day;
+			//else if (entry.day && entry.month) return "On the " + entry.day;
+			else return "On the " + entry.day;
+		}
+
+		$scope.disableDayMonth = function() {
+			if ($scope.newDayOfWeek) $scope.dayMonthDisabled = true;
+			else $scope.dayMonthDisabled = false;
+		}
+
+		$scope.disableWeek = function() {
+			if ($scope.newMonth || $scope.newDay) $scope.weekDisabled = true;
+			else $scope.weekDisabled = false;
+		}
+
+		$scope.toggleCreate = function() {
+			$scope.isCreate = !$scope.isCreate;
+		}
+
+		function submitEntry(entry) {
+			moneyChartsService.createAutomaticEntry(entry).success(function(result) {
+				$scope.entries.push(result.data);
+				//console.log(result.data);
+				$scope.toggleCreate();
+
+			}).error(function(err) {
+				console.log("I hit an error while creating a new automatic entry");
+			});
+		};
 
 	};
 }());

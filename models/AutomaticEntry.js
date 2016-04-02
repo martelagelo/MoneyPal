@@ -7,10 +7,10 @@ var AutomaticEntrySchema = new Schema({
 	description			 : String,
 	cost 				 : Number, 
 	userId				 : {type: Schema.Types.ObjectId, ref: 'User', defualt: null},
-	hour				 : Number,
-	day					 : Number,
-	month                : Number, 
-	dayOfWeek			 : Number,
+	hour				 : {type: Number, default: null},
+	day					 : {type: Number, default: null},
+	month                : {type: Number, default: null}, 
+	dayOfWeek			 : {type: Number, default: null},
 	isCost			     : {type: Boolean, default: true},
 });
 

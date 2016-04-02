@@ -58,7 +58,7 @@
                   <div class="col-md-12 col-sm-12 col-sx-12">
                     <div class="panel panel-default">
                       <div class="panel-heading">
-                        <h4>Default Table</h4>
+                        <h4>Entries Table <button type="button" class="btn btn-xs btn-warning">Help</button></h4>
                         <ul class="links">
                           <li>
                             <a href="#">
@@ -68,36 +68,83 @@
                         </ul>
                       </div>
                       <div class="panel-body">
-                        <p>For basic styling-less padding and only horizontal lines add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>
                         <div class="table-responsive">
                           <table class="table no-margin">
                             <thead>
                               <tr>
-                                <th>#</th>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Username</th>
+                                <th>Description</th>
+                                <th>Cost</th>
+                                <th>Type</th>
+                                <th>Day of Week</th>
+                                <th>Month</th>
+                                <th>Day</th>
+                                <th>Options</th>
                               </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <td>1</td>
-                                <td>Baswa</td>
-                                <td>Otto</td>
-                                <td>@baswa</td>
+                              <tr ng-repeat="entry in entries">
+                                <td>{{entry.description}}</td>
+                                <td>$ {{entry.cost}}</td>
+                                <td>
+                                  <span ng-show="entry.isCost" class="label label label-danger">Expenditure</span>
+                                  <span ng-hide="entry.isCost" class="label label label-info">Income</span>
+                                </td>
+                                <td>{{getDayOfWeek(entry)}}</td>
+                                <td>{{getMonth(entry)}}</td>
+                                <td>{{getDay(entry)}}</td>
+                                <td>
+                                  <button type="button" class="btn btn-xs btn-danger" ng-click="deleteAutomaticEntry(entry)">Delete</button>
+                                </td>
                               </tr>
-                              <tr>
+                              <!--<tr>
                                 <td>2</td>
                                 <td>Johnson</td>
                                 <td>Harris</td>
                                 <td>@fat</td>
+                              </tr>-->
+                              <tr ng-show="isCreate">
+                                <td>
+                                  <!--<label>Enter entry description</label><br>-->
+                                  <input type="text" placeholder="Transaction Description" ng-model="newDescription">
+                                </td>
+                                <td>
+                                  <!--<label>Enter Cost</label><br>-->
+                                  <input type="number" ng-model="newCost">
+                                </td>
+                                <td>
+                                  <select ng-model="newSelect">
+                                    <option value="expenditure">Expenditure</option>
+                                    <option value="gain">Income</option>
+                                  </select>
+                                </td>
+                                <td>
+                                  <!--<label>Enter Day of Week. Leave blank for every week</label><br>-->
+                                  <input type="text" placeholder="e.g. Monday" ng-disabled="weekDisabled" ng-change="disableDayMonth()" ng-model="newDayOfWeek">
+                                <td>
+                                  <!--<label>Enter a month. Leave blank for every month</label><br>-->
+                                  <input type="text" ng-disabled="dayMonthDisabled" ng-change="disableWeek()" placeholder="e.g. March" ng-model="newMonth">
+                                </td>
+                                <td>
+                                  <!--<label>Enter a day. Leave blank for every day</label><br>-->
+                                  <input type="number" ng-disabled="dayMonthDisabled" ng-change="disableWeek()" ng-model="newDay" min="1">
+                                </td>
+                                <td>
+                                  <button type="button" class="btn btn-xs btn-primary" ng-click="createEntry()">Create</button>
+                                  <button type="button" class="btn btn-xs btn-danger" ng-click="toggleCreate()">Cancel</button>
+                                </td>
                               </tr>
-                              <tr>
-                                <td>3</td>
-                                <td>Lorem</td>
-                                <td>Mr. Perfect</td>
-                                <td>@batman</td>
+                              <tr ng-hide="isCreate">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td>
+                                  <button type="button" class="btn btn-xs btn-primary" ng-click="toggleCreate()">New Entry</button>
+                                </td>
                               </tr>
+
                             </tbody>
                           </table>
                         </div>

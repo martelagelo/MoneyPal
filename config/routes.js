@@ -1,6 +1,7 @@
 var loginController = require('../controllers/users.js');
 var moneyEntryController = require('../controllers/moneyEntry.js');
 var miscController = require('../controllers/misc.js');
+var automaticEntryController = require('../controllers/automaticEntry.js');
 var ObjectId = require('mongoose').Schema.Types.ObjectId;
 var config = GLOBAL.CONFIG;
 
@@ -51,4 +52,10 @@ module.exports = function(app, passport) {
 	app.get('/data/locations', isAuthenticated, moneyEntryController.getMoneyLocations);
 
 	app.get('/stock', miscController.getStockPrice);
+
+	app.post('/automatic', isAuthenticated, automaticEntryController.createAutomaticEntry);
+
+	app.get('/automatic/:id', isAuthenticated, automaticEntryController.getAutomaticEntries);
+
+	app.delete('/automatic/:id', isAuthenticated, automaticEntryController.deleteAutomaticEntry);
 };
