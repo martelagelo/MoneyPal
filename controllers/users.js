@@ -103,3 +103,7 @@ exports.checkToken = function (req, res) {
  	}
 };
 
+exports.getAllUsers = function(options,cb){
+	User.find().select(options.select).exec(cb);
+};
+

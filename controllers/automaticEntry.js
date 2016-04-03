@@ -1,5 +1,7 @@
 var AutomaticEntry = require('../models/AutomaticEntry.js');
 var loginContoller = require('./users.js');
+var MoneyEntry = require('../models/MoneyEntry.js');
+var User = require('../models/User.js');
 
 exports.getAutomaticEntries = function(req, res) {
 	AutomaticEntry.getAutomaticEntries({criteria: {userId: req.params.id}}, function(err, allEntries) {
@@ -77,5 +79,44 @@ exports.updateMoneyEntry = function(req, res, next) {
 	});	
 };
 
+var checkAutomaticEntries = function() {
+	var curDate = new Date();
+	//console.log(curDate.getFullYear());
+	loginContoller.getAllUsers({select:'_id'}, function(err, users) {
+		//console.log(users);
+		for(var i = 0; i < users.length; i++) {
+			AutomaticEntry.getAutomaticEntries({criteria: {userId: users[i]._id}}, function(err, allAutoEntries) {
+				//console.log(allAutoEntries);
+				for(var j = 0; j < allAutoEntries.length; j++) {
+					//console.log("I entered the for loop");
+					if (allAutoEntries[j].day == null && allAutoEntries[j].month == null && allAutoEntries[j].dayOfWeek == null) {
+						//console.log("Hit: Every Day");
+						saveAutoAsMoney(allAutoEntries[j], curDate);
+					} else if (allAutoEntries[j].day == curDate.getDate() && allAutoEntries[j].month == curDate.getMonth()) {
+						saveAutoAsMoney(allAutoEntries[j], curDate);
+					} else if (allAutoEntries[j].dayOfWeek == curDate.getDay() || allAutoEntries[j].day == curDate.getDate() && allAutoEntries[j].month == null) {
+						saveAutoAsMoney(allAutoEntries[j], curDate);
+					}
+				};
+			});
+		};
+	});
+};
+exports.checkAutomaticEntries = checkAutomaticEntries;
 
-
+var saveAutoAsMoney = function(e, curDate) {
+	var M_entry = {
+		description : e.description, 
+		cost 		: e.cost,
+		isCost 		: e.isCost,
+		latlng		: {lat: null, lng: null},
+		userId		: e.userId,
+		date 		: curDate,
+		month		: curDate.getMonth(),
+		year 		: curDate.getFullYear(),
+		day 		: curDate.getDate(),
+		dayOfWeek	: curDate.getDay()
+	}
+	var entry = new MoneyEntry(M_entry);
+	entry.save();
+};

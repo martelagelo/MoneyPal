@@ -4,6 +4,10 @@ var miscController = require('../controllers/misc.js');
 var automaticEntryController = require('../controllers/automaticEntry.js');
 var ObjectId = require('mongoose').Schema.Types.ObjectId;
 var config = GLOBAL.CONFIG;
+var CronJob = require('cron').CronJob;
+// var AutomaticEntry = require('../models/AutomaticEntry.js');
+// var MoneyEntry = require('../models/MoneyEntry.js');
+// var User = require('../models/User.js');
 
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
@@ -20,6 +24,18 @@ var isAuthenticated = function (req, res, next) {
 };
 
 module.exports = function(app, passport) {
+
+	/******************************************************************************************/
+	/*Cron Job that sends report Requests to S3*/
+	/******************************************************************************************/
+	var job = new CronJob({
+		cronTime: '00 00 14 * * *',
+		onTick: automaticEntryController.checkAutomaticEntries
+	});
+	job.start();
+	/******************************************************************************************/
+	/*login routes*/
+	/******************************************************************************************/
 
 	app.post('/login', loginController.login);
 
@@ -59,3 +75,14 @@ module.exports = function(app, passport) {
 
 	app.delete('/automatic/:id', isAuthenticated, automaticEntryController.deleteAutomaticEntry);
 };
+
+// var checkAutomaticEntries = function() {
+// 	var date = new Date();
+// 	console.log(date.getFullYear());
+// 	User.getAllUsers(function(users) {
+// 		console.log(users);
+// 		// AutomaticEntry.getAutomaticEntries({criteria: {userId: req.user._id}}, function(err, allEntries) {
+		
+// 		// });
+// 	});
+// };
