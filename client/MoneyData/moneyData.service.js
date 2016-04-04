@@ -5,7 +5,12 @@ angular.module('moneyPal.moneyData')
 		return $http.get('/data/locations');
 	};
 
+	var getTopics = function() {
+		return $http.get('/topic');
+	};
+
 	return {
-		getMoneyLocations: getMoneyLocations
+		getMoneyLocations : getMoneyLocations,
+		getTopics 		  : getTopics,
 	};
 });

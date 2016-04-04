@@ -67,6 +67,10 @@
 			});
 		}
 
+		/******************************************************************************/
+		/************************Start Google Maps Location Functionality**************/
+		/******************************************************************************/
+
 		function getLocation() {
 			if (navigator.geolocation) {
 		    	navigator.geolocation.getCurrentPosition(function(position) {
@@ -118,5 +122,9 @@
 		function handleLocationError(browserHasGeolocation, infoWindow) {
 			//Do Something;
 		};
+
+		/******************************************************************************/
+		/**************************End Google Maps Location Functionality**************/
+		/******************************************************************************/
 	};
 }());

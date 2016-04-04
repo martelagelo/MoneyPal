@@ -30,10 +30,10 @@ module.exports = function(app, passport) {
 		onTick: automaticEntryController.checkAutomaticEntries
 	});
 	job.start();
+
 	/******************************************************************************************/
 	/*login routes*/
 	/******************************************************************************************/
-
 	app.post('/login', loginController.login);
 
 	app.put('/login/change_password', isAuthenticated, loginController.changePassword);
@@ -44,6 +44,9 @@ module.exports = function(app, passport) {
 
 	app.post('/logout', isAuthenticated, loginController.logout);
 
+	/******************************************************************************************/
+	/*dayCharts routes*/
+	/******************************************************************************************/
 	app.get('/dayCharts/:id', isAuthenticated, moneyEntryController.getMoneyEntries);
 
 	app.get('/dayChartsByDay', isAuthenticated, moneyEntryController.getMoneyEntriesByDay);
@@ -52,26 +55,44 @@ module.exports = function(app, passport) {
 
 	app.post('/dayCharts', isAuthenticated, moneyEntryController.createMoneyEntry);
 
+	app.delete('/dayCharts/:id', isAuthenticated, moneyEntryController.deleteMoneyEntry);
+
+	/******************************************************************************************/
+	/*header routes*/
+	/******************************************************************************************/
 	app.get('/charts/cost/day', isAuthenticated, moneyEntryController.getCostsByDay);
 
 	app.get('/charts/cost/month', isAuthenticated, moneyEntryController.getCostsByMonth);
 
 	app.get('/charts/cost/year', isAuthenticated, moneyEntryController.getCostsByYear);
 
+	/******************************************************************************************/
+	/*calendar routes*/
+	/******************************************************************************************/
 	app.get('/charts/cost/calendar', isAuthenticated, moneyEntryController.getMoneyEntriesForCalendar);
 
-	app.delete('/dayCharts/:id', isAuthenticated, moneyEntryController.deleteMoneyEntry);
-
+	/******************************************************************************************/
+	/*map routes*/
+	/******************************************************************************************/
 	app.get('/data/locations', isAuthenticated, moneyEntryController.getMoneyLocations);
 
+	/******************************************************************************************/
+	/*stock routes*/
+	/******************************************************************************************/
 	app.get('/stock', miscController.getStockPrice);
 
+	/******************************************************************************************/
+	/*automatic entry routes*/
+	/******************************************************************************************/
 	app.post('/automatic', isAuthenticated, automaticEntryController.createAutomaticEntry);
 
 	app.get('/automatic/:id', isAuthenticated, automaticEntryController.getAutomaticEntries);
 
 	app.delete('/automatic/:id', isAuthenticated, automaticEntryController.deleteAutomaticEntry);
 
-	//app.post('topic', isAuthenticated, miscController.getNewTopics);
+	/******************************************************************************************/
+	/*topic tagging routes*/
+	/******************************************************************************************/
+	app.get('/topic', isAuthenticated, miscController.getTopic);
 
 };

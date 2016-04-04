@@ -7,7 +7,6 @@
 		var user = loginDataService.getUserInfo();
 
 		moneyDataService.getMoneyLocations().success(function(resp) {
-			//console.log(resp.listOfLocations);
 			initAutocomplete(resp.listOfLocations);
 		}).error(function(err, status) {
 			$location.path('/login'); 
@@ -42,7 +41,6 @@
 					      	}
 					    });
 					} else {
-						//console.log("entry had latlng");
 						var marker = new google.maps.Marker({
 			            	map: map,
 			            	position: entry.latlng,
@@ -51,19 +49,7 @@
 					}
 				}
 			});
-
 		};
 
-		function delay(ms) {
-	        var cur_d = new Date();
-	        var cur_ticks = cur_d.getTime();
-	        var ms_passed = 0;
-	        while(ms_passed < ms) {
-	            var d = new Date();  // Possible memory leak?
-	            var ticks = d.getTime();
-	            ms_passed = ticks - cur_ticks;
-	            // d = null;  // Prevent memory leak?
-	        }
-	    };
     };
 }());

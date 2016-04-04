@@ -234,7 +234,8 @@ function getNewTopics(description, user) {
 		 			} else {
 		 				entry.keywordFreqs[entry.keywords.indexOf(key)] = entry.keywordFreqs[entry.keywords.indexOf(key)] + result.body.keyword[key];
 		 			}
-		 		Topic.findByIdAndUpdate(entry._id, {$set: entry}, function(err, entry) {
+				}
+				Topic.findByIdAndUpdate(entry._id, {$set: entry}, function(err, entry) {
 		 		});
 			}
 		});

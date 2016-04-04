@@ -23,6 +23,17 @@ exports.getStockPrice = function(req, res) {
 exports.getTopic = function(req, res) {
 	var fields = 'keywords topics keywordFreqs topicFreqs';
 	Topic.getTopics({criteria: {userId: req.user._id}, select: fields}, function(err, topic) {
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		}
+		else {
+			res.status(200).send({
+				status: true,
+				data: topic,
+			});
+		}
 	});
 }
 

@@ -15,7 +15,6 @@
 
 		moneyChartsService.getAutomaticEntries().success(function(result) {
 			$scope.entries = result.data;
-			console.log($scope.entries);
 		}).error(function(err) {
 			console.log("Error in fetching automatic entries");
 		});

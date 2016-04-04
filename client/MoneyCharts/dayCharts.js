@@ -5,7 +5,6 @@
 	function dayChartsController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
 
-		//console.log($location.search().param); 
 		if(user === null) $location.path('/login');
 
 		$scope.isNewEntry = false;
@@ -48,12 +47,10 @@
         		return err; 
 			});
 		}
-		
-		$scope.goToToday = function() {
-			var d = new Date();
-			var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
-			$location.path('/dayCharts/').search({param: param});
-		}
+
+		/**************************************************************************************/
+		/********************Money Entry Creation, Updating, and Deletion**********************/
+		/**************************************************************************************/
 
 		$scope.deleteMoneyEntry = function(entry) {
 			moneyChartsService.deleteMoneyEntry(entry).success(function(resp) {
@@ -64,11 +61,9 @@
   				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
   				swal("Success!", "Entry deleted!", "success");
   				$scope.$broadcast('updateCosts');
-				//$state.reload();
 			}).error(function(err) {
 				swal("Cancelled", "Could not delete entry", "error");
 				return err;
-				//Create a modal for failing to delete the report
 			});
 		};
 
@@ -154,6 +149,16 @@
 			}).error(function(err){
 				if(err.status === 401) $state.go('/login');
 			}); 
+		};
+
+		/**************************************************************************************/
+		/********************End Money Entry Creation, Updating, and Deletion******************/
+		/**************************************************************************************/
+
+		$scope.goToToday = function() {
+			var d = new Date();
+			var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
+			$location.path('/dayCharts/').search({param: param});
 		};
 
 		$scope.isEdit = function(entry) {

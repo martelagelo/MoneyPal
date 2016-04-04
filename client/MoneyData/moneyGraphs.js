@@ -2,7 +2,7 @@
 	angular.module('moneyPal.moneyData')
 	.controller('moneyGraphsController', moneyGraphsController);
 
-	function moneyGraphsController($scope, loginDataService, authToken, $location, moneyChartsService) {
+	function moneyGraphsController($scope, loginDataService, authToken, $location, moneyChartsService, moneyDataService) {
 
 		var plot;
 		var plot2;
@@ -17,17 +17,25 @@
 			$scope.totTransactions = data.entries.length;
 			$scope.net = calcNetCost(data.entries);
 			$scope.avgNet = calcAvgNetCost(data.entries);
-			$scope.maxNet = calcMaxNetCost(data.entries);
+			$scope.maxDay = calcMaxDayCost(data.entries);
 
-			var events = makeDataPoints(mergeSort(calculateDailyCosts(data.entries)));
+			var events = makeLineDataPoints(mergeSort(calculateDailyCosts(data.entries)));
 			var eventsMonthly = makeMonthlyDataPoints(mergeSort(calculateMonthlyCosts(data.entries)));
 
-			var sin = [], cos = [];
-			for (var i = 0; i < 14; i += 0.1) {
-				sin.push([i, Math.sin(i)]);
-				cos.push([i, Math.cos(i)]);
-			}
+			makeLineGraph(events);
+			makeMonthlyBarGraph(eventsMonthly);
 
+		}).error(function(err) {
+			
+		});	
+
+		moneyDataService.getTopics().success(function(result) {
+			console.log(result.data);
+		}).error(function(err) {
+			console.log("Failed to get topics");
+		});
+
+		function makeLineGraph(events) {
 			plot = $.plot($("#crosshair"), [{
 				data: events,
 				label: "Daily Net Exchange"
@@ -69,7 +77,9 @@
 
 				colors: [$blue],
 			});
+		};
 
+		function makeMonthlyBarGraph(eventsMonthly) {
 			plot2 = $.plot($("#verticalBar"), [{
 				data: eventsMonthly,
 			}], {
@@ -106,10 +116,7 @@
 
 		            colors: [$blue],
 			});
-
-		}).error(function(err) {
-			
-		});
+		};
 
 		function gd(year, month, day) {
 			return new Date(year, month, day).getTime();
@@ -130,7 +137,7 @@
 			return money_round(cost/numDays);
 		}
 
-		function calcMaxNetCost(entries) {
+		function calcMaxDayCost(entries) {
 			var maxCost = 0;
 			var dict = calculateDailyCosts(entries);
 			dict.forEach(function(entry) {
@@ -183,7 +190,7 @@
 			return dict;
 		};
 
-		function makeDataPoints(entries) {
+		function makeLineDataPoints(entries) {
 			var arr = [];
 			entries.forEach(function(entry) {
 				arr.push([gd(entry.year, entry.month, entry.day), entry.cost])

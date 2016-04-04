@@ -6,7 +6,6 @@
 
 		moneyChartsService.getCalendarCosts().success(function(data){
 			var events = createChartEntries(calculateDailyCosts(data.entries));
-			//console.log(events);
 
 			$('#calendar').fullCalendar({
 			    header: {
