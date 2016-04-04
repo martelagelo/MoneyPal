@@ -4,11 +4,14 @@
 
 	function automaticController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
+
 		$scope.isCreate = false;
 		$scope.weekDisabled = false;
 		$scope.dayMonthDisabled = false;
+
 		var week = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
 		var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
+		var monthIndex = [1,2,3,4,5,6,7,8,9,10,11,12];
 
 		moneyChartsService.getAutomaticEntries().success(function(result) {
 			$scope.entries = result.data;
@@ -33,7 +36,8 @@
 						if ($scope.newDayOfWeek) var newDayOfWeek = week.indexOf($scope.newDayOfWeek.toLowerCase());
 						else var newDayOfWeek = null;
 
-						if ($scope.newMonth) var newMonth = months.indexOf($scope.newMonth.toLowerCase());
+						if ($scope.newMonth && isNaN($scope.newMonth)) var newMonth = months.indexOf($scope.newMonth.toLowerCase());
+						else if ($scope.newMonth && !isNaN($scope.newMonth)) var newMonth = monthIndex.indexOf(Number($scope.newMonth));
 						else var newMonth = null;
 
 						if (newDayOfWeek != -1 && newMonth != -1) {
@@ -92,7 +96,7 @@
 
 		$scope.getDayOfWeek = function(entry) {
 			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
-			if (entry.dayOfWeek) return "Every" + week[entry.dayOfWeek].charAt(0).toUpperCase() + week[entry.dayOfWeek].substr(1);
+			if (entry.dayOfWeek) return "Every " + week[entry.dayOfWeek].charAt(0).toUpperCase() + week[entry.dayOfWeek].substr(1);
 			//else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "Not Applicable";
 			else return "--"
 		}
@@ -129,8 +133,16 @@
 		function submitEntry(entry) {
 			moneyChartsService.createAutomaticEntry(entry).success(function(result) {
 				$scope.entries.push(result.data);
-				//console.log(result.data);
 				$scope.toggleCreate();
+
+				$scope.newMonth = "";
+				$scope.newDayOfWeek = "";
+				$scope.newSelect = "";
+				$scope.newDay = "";
+				$scope.newCost = "";
+				$scope.newDescription = "";
+				$scope.weekDisabled = false;
+				$scope.dayMonthDisabled = false;
 
 			}).error(function(err) {
 				console.log("I hit an error while creating a new automatic entry");
