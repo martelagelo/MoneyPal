@@ -115,7 +115,7 @@ exports.getAllMoneyEntries = function(option, cb) {
 exports.createMoneyEntry = function(req, res, next) {
 	loginContoller.checkToken(req, res);
 	var entry = new MoneyEntry(req.body.entry);
-	//getNewTopics(entry.description);
+	getNewTopics(entry.description, req.user);
 	entry.save(function(err, createdEntry) {
 		if(err) {
 			res.status(409).send({
@@ -190,14 +190,53 @@ exports.getMoneyLocations = function(req, res, next) {
 	});
 };
 
-function getNewTopics(description) {
-	//console.log(description);
+function getNewTopics(description, user) {
+	var fields = 'keywords topics keywordFreqs topicFreqs';
 	unirest.post("https://twinword-topic-tagging.p.mashape.com/generate/")
 	.header("X-Mashape-Key", "5D7ZbLtpR7mshm3Y0JR5oHY42Tbip1BE21ljsnUuSmKsM0XyfJ")
 	.header("Content-Type", "application/x-www-form-urlencoded")
 	.header("Accept", "application/json")
 	.send("text="+description)
 	.end(function (result) {
-		console.log(result.body);
+		Topic.getTopics({criteria: {userId: user._id}, select: fields}, function(err, topic) {
+			if (topic.length == 0) {
+		 		var entry = {
+		 			userId 		: user._id,
+		 			keywords	: [],
+		 			keywordFreqs: [],
+		 			topics 		: [],
+		 			topicFreqs  : []
+		 		};
+		 		for(var key in result.body.topic) {
+		 			entry.topics.push(key);
+		 			entry.topicFreqs.push(result.body.topic[key]);
+		 		}
+		 		for(var key in result.body.keyword) {
+		 			entry.keywords.push(key);
+		 			entry.keywordFreqs.push(result.body.keyword[key]);
+		 		}
+				var topic = new Topic(entry);
+				topic.save();
+			} else {
+				var entry = topic[0];
+				for(var key in result.body.topic) {
+		 			if (entry.topics.indexOf(key) == -1) {
+		 				entry.topics.push(key);
+		 				entry.topicFreqs.push(result.body.topic[key]);
+		 			} else {
+		 				entry.topicFreqs[entry.topics.indexOf(key)] = entry.topicFreqs[entry.topics.indexOf(key)] + result.body.topic[key];
+		 			}
+		 		}
+		 		for(var key in result.body.keyword) {
+		 			if (entry.keywords.indexOf(key) == -1) {
+		 				entry.keywords.push(key);
+		 				entry.keywordFreqs.push(result.body.keyword[key]);
+		 			} else {
+		 				entry.keywordFreqs[entry.keywords.indexOf(key)] = entry.keywordFreqs[entry.keywords.indexOf(key)] + result.body.keyword[key];
+		 			}
+		 		Topic.findByIdAndUpdate(entry._id, {$set: entry}, function(err, entry) {
+		 		});
+			}
+		});
 	});
 };

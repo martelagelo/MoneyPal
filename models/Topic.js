@@ -5,11 +5,10 @@ var User = user.User;
 
 var TopicSchema = new Schema({
 	userId			: {type: Schema.Types.ObjectId, ref: 'User', defualt: null},
-	topics  		: [{
-		entry		: String, 
-		freq		: Number,
-		cost		: Number,
-	}]
+	keywords		: [String],
+	keywordFreqs	: [Number],
+	topics 			: [String],
+	topicFreqs		: [Number]
 });
 
 TopicSchema.statics = {

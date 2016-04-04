@@ -59,6 +59,8 @@
 			moneyChartsService.deleteMoneyEntry(entry).success(function(resp) {
 				var index = $scope.entries.indexOf(entry);
   				$scope.entries.splice(index, 1); 
+  				index = $scope.display.indexOf(entry);
+  				$scope.display.splice(index, 1);
   				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
   				swal("Success!", "Entry deleted!", "success");
   				$scope.$broadcast('updateCosts');
@@ -97,11 +99,16 @@
 
 				moneyChartsService.createMoneyEntry(entry).success(function(response) {
 					swal("Success!", "Entry Created!", "success");
-					//$state.reload();
 					$scope.entries.push(entry.entry);
+					$scope.display.push(entry.entry);
 					$scope.editArray = makeEditArray($scope.entries);
 					$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
 					$scope.toggleNewEntry();
+
+					$scope.newDescription = "";
+					$scope.newCost = "";
+					$scope.newDate = "";
+					$scope.newSelect = "";
 
 					$scope.$broadcast('updateCosts');
 				}).error(function(err) {
@@ -137,8 +144,9 @@
 				swal("Success!", "Entry updated!", "success");
 
 				var index = $scope.entries.indexOf(Entry);		//deletes entry
-  				$scope.entries.splice(index, 1); 
-  				//$scope.entries.push(submitMoneyEntry.entry);
+  				$scope.entries[index] = response.data; 
+  				index = $scope.display.indexOf(Entry);
+  				$scope.display[index] = response.data;
 
 				$scope.editArray = makeEditArray($scope.entries);
 				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
@@ -261,6 +269,9 @@
 			return arr;
 		}
 
+		/******************************************************************************/
+		/************************Start Google Maps Location Functionality**************/
+		/******************************************************************************/
 		function getLocation() {
 			if (navigator.geolocation) {
 		    	navigator.geolocation.getCurrentPosition(function(position) {
@@ -298,6 +309,9 @@
 		function handleLocationError(browserHasGeolocation, infoWindow) {
 			//Do Something;
 		};
+		/******************************************************************************/
+		/************************End Google Maps Location Functionality**************/
+		/******************************************************************************/
 	
 	};
 }());

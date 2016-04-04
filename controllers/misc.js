@@ -1,4 +1,5 @@
 var yahooFinance = require('yahoo-finance');
+var Topic = require('../models/Topic.js');
 
 exports.getStockPrice = function(req, res) {
 	yahooFinance.snapshot({
@@ -18,5 +19,11 @@ exports.getStockPrice = function(req, res) {
 		}
 	});
 };
+
+exports.getTopic = function(req, res) {
+	var fields = 'keywords topics keywordFreqs topicFreqs';
+	Topic.getTopics({criteria: {userId: req.user._id}, select: fields}, function(err, topic) {
+	});
+}
 
 
