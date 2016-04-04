@@ -1,5 +1,7 @@
 var MoneyEntry = require('../models/MoneyEntry.js');
 var loginContoller = require('./users.js');
+var Topic = require('../models/Topic.js');
+var unirest = require('unirest');
 
 exports.getMoneyEntries = function(req, res) {
 	MoneyEntry.getMoneyEntries({criteria: {userId: req.params.id}}, function(err, allMoneyEntries) {
@@ -113,6 +115,7 @@ exports.getAllMoneyEntries = function(option, cb) {
 exports.createMoneyEntry = function(req, res, next) {
 	loginContoller.checkToken(req, res);
 	var entry = new MoneyEntry(req.body.entry);
+	//getNewTopics(entry.description);
 	entry.save(function(err, createdEntry) {
 		if(err) {
 			res.status(409).send({
@@ -184,5 +187,17 @@ exports.getMoneyLocations = function(req, res, next) {
 				user: req.user
 			});
 		}
+	});
+};
+
+function getNewTopics(description) {
+	//console.log(description);
+	unirest.post("https://twinword-topic-tagging.p.mashape.com/generate/")
+	.header("X-Mashape-Key", "5D7ZbLtpR7mshm3Y0JR5oHY42Tbip1BE21ljsnUuSmKsM0XyfJ")
+	.header("Content-Type", "application/x-www-form-urlencoded")
+	.header("Accept", "application/json")
+	.send("text="+description)
+	.end(function (result) {
+		console.log(result.body);
 	});
 };

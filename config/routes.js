@@ -5,9 +5,6 @@ var automaticEntryController = require('../controllers/automaticEntry.js');
 var ObjectId = require('mongoose').Schema.Types.ObjectId;
 var config = GLOBAL.CONFIG;
 var CronJob = require('cron').CronJob;
-// var AutomaticEntry = require('../models/AutomaticEntry.js');
-// var MoneyEntry = require('../models/MoneyEntry.js');
-// var User = require('../models/User.js');
 
 var isAuthenticated = function (req, res, next) {
 	// if user is authenticated in the session, call the next() to call the next request handler 
@@ -74,15 +71,7 @@ module.exports = function(app, passport) {
 	app.get('/automatic/:id', isAuthenticated, automaticEntryController.getAutomaticEntries);
 
 	app.delete('/automatic/:id', isAuthenticated, automaticEntryController.deleteAutomaticEntry);
-};
 
-// var checkAutomaticEntries = function() {
-// 	var date = new Date();
-// 	console.log(date.getFullYear());
-// 	User.getAllUsers(function(users) {
-// 		console.log(users);
-// 		// AutomaticEntry.getAutomaticEntries({criteria: {userId: req.user._id}}, function(err, allEntries) {
-		
-// 		// });
-// 	});
-// };
+	//app.post('topic', isAuthenticated, miscController.getNewTopics);
+
+};

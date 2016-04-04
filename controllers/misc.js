@@ -18,3 +18,5 @@ exports.getStockPrice = function(req, res) {
 		}
 	});
 };
+
+

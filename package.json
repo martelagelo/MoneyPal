@@ -22,6 +22,7 @@
     "passport-strategy": "1.0.0",
     "passport-local": "1.0.0",
     "cron" : "1.1.0",
-    "yahoo-finance" : "0.2.12"
+    "yahoo-finance" : "0.2.12",
+    "unirest" : "0.4.2"
   }
 }
