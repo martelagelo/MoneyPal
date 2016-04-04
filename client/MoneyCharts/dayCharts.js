@@ -1,7 +1,7 @@
 (function(){
 	angular.module('moneyPal.moneyCharts')
 	.controller('dayChartsController', dayChartsController);
-
+	dayChartsController.$inject=['$scope','loginDataService','moneyChartsService', 'authToken', '$location', '$state'];
 	function dayChartsController($scope, loginDataService, moneyChartsService, authToken, $location, $state) {
 		var user = loginDataService.getUserInfo();
 
@@ -10,14 +10,13 @@
 
 		$scope.isNewEntry = false;
 		var coord;
+		$scope.entries ='';
 
 		if ($location.search().param == undefined) {
 			$scope.date = new Date();
 			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
-				$scope.entries = resp.allMoneyEntries;
-				$scope.editArray = makeEditArray(resp.allMoneyEntries);
-				$scope.totCost = money_round(calculateTotalDailyCost(resp.allMoneyEntries));
+				initializeScopeVars(resp.allMoneyEntries);
 			}).error(function(err, status) {
 				if (status == 401) {
 					console.log("I hit an error");
@@ -35,9 +34,7 @@
 			$scope.date = new Date(param[0], param[1], param[2]);
 			$scope.allTransactions = false;
 			moneyChartsService.getMoneyEntriesByDay(param[0], param[1], param[2]).success(function(resp) {
-				$scope.entries = resp.allMoneyEntries;
-				$scope.editArray = makeEditArray(resp.allMoneyEntries);
-				$scope.totCost = money_round(calculateTotalDailyCost(resp.allMoneyEntries));
+				initializeScopeVars(resp.allMoneyEntries);
 			}).error(function(err, status) {
 				if (status == 401) {
 					console.log("I hit an error");
@@ -139,9 +136,9 @@
 			moneyChartsService.updateMoneyEntry(submitMoneyEntry, Entry._id).success(function(response){
 				swal("Success!", "Entry updated!", "success");
 
-				var index = $scope.entries.indexOf(Entry);
+				var index = $scope.entries.indexOf(Entry);		//deletes entry
   				$scope.entries.splice(index, 1); 
-  				$scope.entries.push(response.data);
+  				//$scope.entries.push(submitMoneyEntry.entry);
 
 				$scope.editArray = makeEditArray($scope.entries);
 				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
@@ -167,7 +164,73 @@
 		$scope.toggleNewEntry = function() {
 			$scope.isNewEntry = !$scope.isNewEntry;
 			if ($scope.isNewEntry == true) getLocation();
-		}
+		};
+
+		/**************************************************************************************/
+		/*************************For Pagination***********************************************/
+		/**************************************************************************************/
+   		$scope.range = function() {
+	        var ret = [];
+
+	        if ($scope.pageCount() < 5) {
+	        	 for (var i=0; i< $scope.pageCount(); i++) ret.push(i);
+	        }
+	        else { 
+		        if ($scope.currentPage == 0 || $scope.currentPage == 1) var mid = 2;
+		        else if ($scope.currentPage == $scope.pageCount()-1 || $scope.currentPage == $scope.pageCount()-2) var mid = $scope.pageCount()-3;
+		        else var mid = $scope.currentPage;
+
+		        for (var i=mid-2; i< mid+3; i++) ret.push(i);
+		    }
+	        return ret;
+   		};
+
+		$scope.changePage = function(direction) {
+	        if(direction == 1) if ($scope.currentPage < $scope.pageCount() -1) {
+	        	$scope.currentPage++;
+	        	$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+	        }
+	        if(direction == 0) if ($scope.currentPage > 0) {
+	        	$scope.currentPage--;
+	        	$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+	        }
+	    };
+
+  		$scope.prevPageDisabled = function() {
+  			return $scope.currentPage === 0 ? "disabled" : "";
+  		};
+
+  		$scope.pageCount = function() {
+  			return Math.ceil($scope.entries.length/$scope.itemsPerPage);
+  		};
+
+  		$scope.setPage = function(n) {
+  			$scope.currentPage = n;
+  			$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+  		};
+
+	    $scope.setSize= function(size){
+	       	$scope.itemsPerPage=size;
+	        $scope.setPage(0);
+	    };
+
+  		$scope.nextPageDisabled = function() {
+  			return $scope.currentPage === $scope.pageCount()-1 ? "disabled" : "";
+  		};
+  		/**************************************************************************************/
+		/*************************End Pagination***********************************************/
+		/**************************************************************************************/
+
+		function initializeScopeVars(entries) {
+			$scope.entries = entries;
+			$scope.editArray = makeEditArray(entries);
+			$scope.totCost = money_round(calculateTotalDailyCost(entries));
+
+			$scope.currentPage = 0;
+			$scope.itemsPerPage = 12;
+
+			$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+		};
 
 		function makeEditArray(entries) {
 			var arr = [];
@@ -190,6 +253,13 @@
 		function money_round(num) {
     		return Math.ceil(num * 100) / 100;
 		};
+
+		function copy(entries, start, end) {
+			if (end > entries.length) end = entries.length; 
+			arr = [];
+			for (var i = start; i < end; i++) arr.push(entries[i]);
+			return arr;
+		}
 
 		function getLocation() {
 			if (navigator.geolocation) {

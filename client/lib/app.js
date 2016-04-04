@@ -15,10 +15,12 @@
 			.state("dayCharts", {
 				url:"/dayCharts",
 				templateUrl: "/MoneyCharts/dayCharts.html",
+				controller: "dayChartsController",
 			})
 			.state("dayCharts/:param", {
 				url:"/dayCharts/:param",
 				templateUrl: "/MoneyCharts/dayCharts.html",
+				dayChartsController: "dayChartsController",
 			})
 			.state("newMoneyEntry", {
 				url:"/newMoneyEntry",

@@ -1,3 +1,3 @@
 (function(){
-	angular.module('moneyPal.moneyCharts',[]);
+	angular.module('moneyPal.moneyCharts',['ui.bootstrap']);
 }());
