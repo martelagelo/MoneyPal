@@ -6,12 +6,18 @@
 
 		var plot;
 		var plot2;
+		var plot3;
 		var updateLegendTimeout = null;
 		var latestPosition = null;
 		var legends = $("#crosshair .legendLabel");
 
 		var $green = "#8ecf67";
 		var $blue = "#12A4F4";
+		var $border_color = "#f9f9f9";
+		var $grid_color = "#eeeeee";
+		var $default_black = "#999999";
+		var $default_white = "#ffffff";
+		var $sky_blue = "#edf5fa";
 
 		moneyChartsService.getCalendarCosts().success(function(data){
 			$scope.totTransactions = data.entries.length;
@@ -31,6 +37,7 @@
 
 		moneyDataService.getTopics().success(function(result) {
 			console.log(result.data);
+			makeTopicPieGraph();
 		}).error(function(err) {
 			console.log("Failed to get topics");
 		});
@@ -77,6 +84,11 @@
 
 				colors: [$blue],
 			});
+
+			$("#crosshair").bind("plothover", function (event, pos, item) {
+				latestPosition = pos;
+				if (!updateLegendTimeout) updateLegendTimeout = setTimeout(updateLegend, 50);
+			});
 		};
 
 		function makeMonthlyBarGraph(eventsMonthly) {
@@ -116,6 +128,34 @@
 
 		            colors: [$blue],
 			});
+		};
+
+		function makeTopicPieGraph() {
+			var data = [
+			    { label: "IE",  data: 19.5},
+			    { label: "Safari",  data: 4.5},
+			    { label: "Firefox",  data: 36.6},
+			    { label: "Opera",  data: 2.3},
+			    { label: "Chrome",  data: 36.3},
+			    { label: "Other",  data: 0.8}
+			];
+		
+		    plot3 = $.plot($("#simplePieChart"), data, {
+		    	series: {
+					pie: {show: true},
+				},
+				legend:{  
+					show: true,
+					position: 'ne',
+					labelBoxBorderColor: "none"	
+				},
+				grid: {
+		      		hoverable: true,
+		  		},
+				colors: [$green, $blue, $default_black],
+		    });
+		    $("#simplePieChart").bind("plothover", pieHover);
+
 		};
 
 		function gd(year, month, day) {
@@ -206,6 +246,28 @@
 			return arr;
 		};
 
+		function updateLegend() {
+			updateLegendTimeout = null;
+			var pos = latestPosition;
+			var axes = plot.getAxes();
+			if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max || pos.y < axes.yaxis.min || pos.y > axes.yaxis.max) return;
+			var i, j, dataset = plot.getData();
+			for (i = 0; i < dataset.length; ++i) {
+				var series = dataset[i];
+				// find the nearest points, x-wise
+				for (j = 0; j < series.data.length; ++j)
+				if (series.data[j][0] > pos.x) break;
+				// now interpolate
+				var y, p1 = series.data[j - 1],
+						p2 = series.data[j];
+				if (p1 == null) y = p2[1];
+				else if (p2 == null) y = p1[1];
+				else y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
+				legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2) + " °C"));
+				console.log(series.label.replace(/=.*/, "= " + y.toFixed(2) + " °C"));
+			}
+		}
+
 		function mergeSort(arr) {
 		    if (arr.length < 2)
 		        return arr;
@@ -251,6 +313,15 @@
 
 		function money_round(num) {
     		return Math.ceil(num * 100) / 100;
+		};
+		 
+		function pieHover(event, pos, obj) {
+		    if (!obj)
+		        return;
+		 
+		    percent = parseFloat(obj.series.percent).toFixed(2);
+		    $("#pieHover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
 		}
+
 	};
 }());
