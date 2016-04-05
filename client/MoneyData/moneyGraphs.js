@@ -45,7 +45,7 @@
 		function makeLineGraph(events) {
 			plot = $.plot($("#crosshair"), [{
 				data: events,
-				label: "Daily Net Exchange"
+				label: "Daily Net Exchange = $0.00"
 			}], {
 				series: {
 					lines: {show: true , lineWidth: 1},
@@ -59,7 +59,7 @@
 					shadowSize: 0
 				},
 				crosshair: {
-					mode: "xy"
+					mode: "x"
 				},
 				grid: {
 					hoverable: true,
@@ -254,6 +254,7 @@
 			var i, j, dataset = plot.getData();
 			for (i = 0; i < dataset.length; ++i) {
 				var series = dataset[i];
+				// console.log(series);
 				// find the nearest points, x-wise
 				for (j = 0; j < series.data.length; ++j)
 				if (series.data[j][0] > pos.x) break;
@@ -263,8 +264,9 @@
 				if (p1 == null) y = p2[1];
 				else if (p2 == null) y = p1[1];
 				else y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
-				legends.eq(i).text(series.label.replace(/=.*/, "= " + y.toFixed(2) + " °C"));
-				console.log(series.label.replace(/=.*/, "= " + y.toFixed(2) + " °C"));
+				$('.legendLabel:first').text(series.label.replace(/=.*/, "= $" + y.toFixed(2)));
+				// legends.eq(i).text(series.label.replace(/=.*/, "= $" + y.toFixed(2)));
+				// console.log("Daily Net Exchange = $" + y.toFixed(2));
 			}
 		}
 
