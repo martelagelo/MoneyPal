@@ -95,4 +95,6 @@ module.exports = function(app, passport) {
 	/******************************************************************************************/
 	app.get('/topic', isAuthenticated, miscController.getTopic);
 
+	app.get('/topic/filtered', isAuthenticated, miscController.getFilteredTopics);
+
 };

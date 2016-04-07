@@ -81,14 +81,10 @@ exports.updateMoneyEntry = function(req, res, next) {
 
 var checkAutomaticEntries = function() {
 	var curDate = new Date();
-	//console.log(curDate.getFullYear());
 	loginContoller.getAllUsers({select:'_id'}, function(err, users) {
-		//console.log(users);
 		for(var i = 0; i < users.length; i++) {
 			AutomaticEntry.getAutomaticEntries({criteria: {userId: users[i]._id}}, function(err, allAutoEntries) {
-				//console.log(allAutoEntries);
 				for(var j = 0; j < allAutoEntries.length; j++) {
-					//console.log("I entered the for loop");
 					if (allAutoEntries[j].day == null && allAutoEntries[j].month == null && allAutoEntries[j].dayOfWeek == null) {
 						//console.log("Hit: Every Day");
 						saveAutoAsMoney(allAutoEntries[j], curDate);

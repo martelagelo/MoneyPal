@@ -9,8 +9,13 @@ angular.module('moneyPal.moneyData')
 		return $http.get('/topic');
 	};
 
+	var getFilteredTopics = function() {
+		return $http.get('/topic/filtered');
+	};
+
 	return {
 		getMoneyLocations : getMoneyLocations,
 		getTopics 		  : getTopics,
+		getFilteredTopics : getFilteredTopics
 	};
 });

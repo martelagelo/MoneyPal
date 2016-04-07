@@ -21,7 +21,7 @@ exports.getStockPrice = function(req, res) {
 };
 
 exports.getTopic = function(req, res) {
-	var fields = 'keywords topics keywordFreqs topicFreqs';
+	var fields = 'keywords topics keywordFreqs topicFreqs topicCosts keywordCosts';
 	Topic.getTopics({criteria: {userId: req.user._id}, select: fields}, function(err, topic) {
 		if(err) {
 			res.status(500).send({
@@ -32,6 +32,40 @@ exports.getTopic = function(req, res) {
 			res.status(200).send({
 				status: true,
 				data: topic,
+			});
+		}
+	});
+};
+
+exports.getFilteredTopics = function(req, res) {
+	var fields = 'keywords topics keywordFreqs topicFreqs topicCosts keywordCosts';
+	Topic.getTopics({criteria: {userId: req.user._id}, select: fields}, function(err, topic) {
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		} else {
+			var data = {
+				topics 	   : [],
+				topicCosts : [],
+				topicFreqs : []
+			};
+			for(var key in topic[0].topics) {
+				if (data.topics.length == 5) {
+					var ind = data.topicFreqs.indexOf(Math.max.apply(Math, data.topicFreqs));
+					if (data.topicFreqs[ind] < topic[0].topicFreqs[topic[0].topics.indexOf(key)]) {
+						data.topics.splice(ind, 1); 
+						//TODO NOT DONE;
+					}
+				} else {
+					data.topics.push(key);
+					data.topicCosts.push(topic[0].topicCosts[topic[0].topics.indexOf(key)]);
+					data.topicFreqs.push(topic[0].topicFreqs[topic[0].topics.indexOf(key)]);
+				}
+			}
+			res.status(200).send({
+				status: true,
+				data: data,
 			});
 		}
 	});

@@ -36,8 +36,7 @@
 		});	
 
 		moneyDataService.getTopics().success(function(result) {
-			console.log(result.data);
-			makeTopicPieGraph();
+			makeTopicPieGraph(result.data);
 		}).error(function(err) {
 			console.log("Failed to get topics");
 		});
@@ -130,15 +129,23 @@
 			});
 		};
 
-		function makeTopicPieGraph() {
-			var data = [
-			    { label: "IE",  data: 19.5},
-			    { label: "Safari",  data: 4.5},
-			    { label: "Firefox",  data: 36.6},
-			    { label: "Opera",  data: 2.3},
-			    { label: "Chrome",  data: 36.3},
-			    { label: "Other",  data: 0.8}
-			];
+		function makeTopicPieGraph(topics) {
+			var sum = 0;
+			topics[0].topicCosts.forEach(function(cost) {
+				sum = sum + cost;
+			});
+			var data = [];
+			for(var i = 0; i < topics[0].topics.length; i++) {
+				data.push({label: topics[0].topics[i], data: money_round(topics[0].topicCosts[i]/sum)});
+			}
+			// var data = [
+			//     { label: "IE",  data: 19.5},
+			//     { label: "Safari",  data: 4.5},
+			//     { label: "Firefox",  data: 36.6},
+			//     { label: "Opera",  data: 2.3},
+			//     { label: "Chrome",  data: 36.3},
+			//     { label: "Other",  data: 0.8}
+			// ];
 		
 		    plot3 = $.plot($("#simplePieChart"), data, {
 		    	series: {

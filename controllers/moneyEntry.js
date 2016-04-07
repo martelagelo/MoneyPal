@@ -115,7 +115,7 @@ exports.getAllMoneyEntries = function(option, cb) {
 exports.createMoneyEntry = function(req, res, next) {
 	loginContoller.checkToken(req, res);
 	var entry = new MoneyEntry(req.body.entry);
-	getNewTopics(entry.description, req.user);
+	getNewTopics(entry.description, entry.cost, req.user);
 	entry.save(function(err, createdEntry) {
 		if(err) {
 			res.status(409).send({
@@ -190,8 +190,9 @@ exports.getMoneyLocations = function(req, res, next) {
 	});
 };
 
-function getNewTopics(description, user) {
-	var fields = 'keywords topics keywordFreqs topicFreqs';
+function getNewTopics(description, cost, user) {
+	cost = Math.abs(cost);
+	var fields = 'keywords topics keywordFreqs topicFreqs topicCosts keywordCosts';
 	unirest.post("https://twinword-topic-tagging.p.mashape.com/generate/")
 	.header("X-Mashape-Key", "5D7ZbLtpR7mshm3Y0JR5oHY42Tbip1BE21ljsnUuSmKsM0XyfJ")
 	.header("Content-Type", "application/x-www-form-urlencoded")
@@ -204,16 +205,20 @@ function getNewTopics(description, user) {
 		 			userId 		: user._id,
 		 			keywords	: [],
 		 			keywordFreqs: [],
+		 			keywordCosts: [],
 		 			topics 		: [],
-		 			topicFreqs  : []
+		 			topicFreqs  : [],
+		 			topicCosts	: []
 		 		};
 		 		for(var key in result.body.topic) {
 		 			entry.topics.push(key);
 		 			entry.topicFreqs.push(result.body.topic[key]);
+		 			entry.topicCosts.push(cost);
 		 		}
 		 		for(var key in result.body.keyword) {
 		 			entry.keywords.push(key);
 		 			entry.keywordFreqs.push(result.body.keyword[key]);
+		 			entry.keywordCosts.push(cost);
 		 		}
 				var topic = new Topic(entry);
 				topic.save();
@@ -223,16 +228,20 @@ function getNewTopics(description, user) {
 		 			if (entry.topics.indexOf(key) == -1) {
 		 				entry.topics.push(key);
 		 				entry.topicFreqs.push(result.body.topic[key]);
+		 				entry.topicCosts.push(cost);
 		 			} else {
 		 				entry.topicFreqs[entry.topics.indexOf(key)] = entry.topicFreqs[entry.topics.indexOf(key)] + result.body.topic[key];
+		 				entry.topicCosts[entry.topics.indexOf(key)] = entry.topicCosts[entry.topics.indexOf(key)] + cost;
 		 			}
 		 		}
 		 		for(var key in result.body.keyword) {
 		 			if (entry.keywords.indexOf(key) == -1) {
 		 				entry.keywords.push(key);
 		 				entry.keywordFreqs.push(result.body.keyword[key]);
+		 				entry.keywordCosts.push(cost);
 		 			} else {
 		 				entry.keywordFreqs[entry.keywords.indexOf(key)] = entry.keywordFreqs[entry.keywords.indexOf(key)] + result.body.keyword[key];
+		 				entry.keywordCosts[entry.keywords.indexOf(key)] = entry.keywordCosts[entry.keywords.indexOf(key)] + cost;
 		 			}
 				}
 				Topic.findByIdAndUpdate(entry._id, {$set: entry}, function(err, entry) {

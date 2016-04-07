@@ -32,7 +32,7 @@
             <div class="page-title">
                 <h4 ng-hide="allTransactions"><div class="fs1" aria-hidden="true" data-icon="&#xe007;"></div>
                   Day's Transactions 
-                  <a ui-sref="dayCharts" class="samll">All Transactions</a>
+                  <a ui-sref="dayCharts" class="small">All Transactions</a>
                 </h4>
                 <h4 ng-show="allTransactions"><div class="fs1" aria-hidden="true" data-icon="&#xe007;"></div>
                   All Transactions
@@ -45,8 +45,8 @@
                     <span></span> <b class="caret"></b>
                 </li>
                 <li>
-                    <a href="#" class="btn btn-info sb-open-right  sb-close">
-                        <div class="fs1" aria-hidden="true" data-icon="&#xe06a;"></div>
+                    <a class="btn btn-info sb-open-right  sb-close">
+                        <div class="fs1" aria-hidden="true" data-icon="&#xe06a;" ui-sref="newMoneyEntry"></div>
                     </a>
                 </li>
             </ul>
@@ -237,7 +237,7 @@
 
     </div>
     <!-- Main Container Start -->
-    
+
     <!-- Footer Start -->
     <footer>
         Copyright Cloud Admin <span>2015</span>. All Rights Reserved.

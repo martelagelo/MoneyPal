@@ -7,8 +7,10 @@ var TopicSchema = new Schema({
 	userId			: {type: Schema.Types.ObjectId, ref: 'User', defualt: null},
 	keywords		: [String],
 	keywordFreqs	: [Number],
+	keywordCosts	: [Number],
 	topics 			: [String],
-	topicFreqs		: [Number]
+	topicFreqs		: [Number],
+	topicCosts		: [Number],
 });
 
 TopicSchema.statics = {

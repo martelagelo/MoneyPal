@@ -8,8 +8,11 @@
 		$scope.name = user.firstName + " " + user.lastName;
 
 		$scope.disabled = true;
-		if ($state.is('dayCharts') || $state.is("dayCharts/:param") || $state.is("automaticEntry")) $scope.disabled = false;
-
+		$scope.searchBarPlaceHolder = "disabled";
+		if ($state.is('dayCharts') || $state.is("dayCharts/:param") || $state.is("automaticEntry")) {
+			$scope.disabled = false;
+			$scope.searchBarPlaceHolder = "Search here";
+		};
 
 		getCosts();
 
