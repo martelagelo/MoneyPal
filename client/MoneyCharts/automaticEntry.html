@@ -85,7 +85,7 @@
                               </tr>
                             </thead>
                             <tbody>
-                              <tr ng-repeat="entry in entries">
+                              <tr ng-repeat="entry in entries | filter:search">
                                 <td>{{entry.description}}</td>
                                 <td>$ {{entry.cost}}</td>
                                 <td>
@@ -99,12 +99,6 @@
                                   <button type="button" class="btn btn-xs btn-danger" ng-click="deleteAutomaticEntry(entry)">Delete</button>
                                 </td>
                               </tr>
-                              <!--<tr>
-                                <td>2</td>
-                                <td>Johnson</td>
-                                <td>Harris</td>
-                                <td>@fat</td>
-                              </tr>-->
                               <tr ng-show="isCreate">
                                 <td>
                                   <!--<label>Enter entry description</label><br>-->

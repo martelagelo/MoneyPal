@@ -11,6 +11,16 @@
 		var coord;
 		$scope.entries ='';
 
+		$scope.$on('searchStart', function(event,args) {
+			$scope.search = args.search;
+		});
+
+		$("span").mouseover(function() {
+			$(this).css('background-color', '#337ab7');
+		}).mouseout(function() {
+			$(this).css('background-color', '#5cb85c');
+		})
+
 		if ($location.search().param == undefined) {
 			$scope.date = new Date();
 			$scope.allTransactions = true;
@@ -56,8 +66,8 @@
 			moneyChartsService.deleteMoneyEntry(entry).success(function(resp) {
 				var index = $scope.entries.indexOf(entry);
   				$scope.entries.splice(index, 1); 
-  				index = $scope.display.indexOf(entry);
-  				$scope.display.splice(index, 1);
+  				//index = $scope.display.indexOf(entry);
+  				//$scope.display.splice(index, 1);
   				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
   				swal("Success!", "Entry deleted!", "success");
   				$scope.$broadcast('updateCosts');
@@ -95,7 +105,7 @@
 				moneyChartsService.createMoneyEntry(entry).success(function(response) {
 					swal("Success!", "Entry Created!", "success");
 					$scope.entries.push(entry.entry);
-					$scope.display.push(entry.entry);
+					//$scope.display.push(entry.entry);
 					$scope.editArray = makeEditArray($scope.entries);
 					$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
 					$scope.toggleNewEntry();
@@ -140,8 +150,8 @@
 
 				var index = $scope.entries.indexOf(Entry);		//deletes entry
   				$scope.entries[index] = response.data; 
-  				index = $scope.display.indexOf(Entry);
-  				$scope.display[index] = response.data;
+  				//index = $scope.display.indexOf(Entry);
+  				//$scope.display[index] = response.data;
 
 				$scope.editArray = makeEditArray($scope.entries);
 				$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
@@ -201,11 +211,11 @@
 		$scope.changePage = function(direction) {
 	        if(direction == 1) if ($scope.currentPage < $scope.pageCount() -1) {
 	        	$scope.currentPage++;
-	        	$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+	        	//$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
 	        }
 	        if(direction == 0) if ($scope.currentPage > 0) {
 	        	$scope.currentPage--;
-	        	$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+	        	//$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
 	        }
 	    };
 
@@ -219,7 +229,7 @@
 
   		$scope.setPage = function(n) {
   			$scope.currentPage = n;
-  			$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+  			//$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
   		};
 
 	    $scope.setSize= function(size){
@@ -239,10 +249,12 @@
 			$scope.editArray = makeEditArray(entries);
 			$scope.totCost = money_round(calculateTotalDailyCost(entries));
 
+			$scope.sortType = '';
+			$scope.sortReverse  = false;  
 			$scope.currentPage = 0;
-			$scope.itemsPerPage = 12;
+			$scope.itemsPerPage = 10;
 
-			$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
+			//$scope.display = copy($scope.entries, $scope.currentPage*$scope.itemsPerPage, $scope.currentPage*$scope.itemsPerPage + $scope.itemsPerPage);
 		};
 
 		function makeEditArray(entries) {

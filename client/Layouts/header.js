@@ -7,6 +7,10 @@
 		if(user == null || user == undefined) $location.path('/login');
 		$scope.name = user.firstName + " " + user.lastName;
 
+		$scope.disabled = true;
+		if ($state.is('dayCharts') || $state.is("dayCharts/:param") || $state.is("automaticEntry")) $scope.disabled = false;
+
+
 		getCosts();
 
 		//SPY, NDAQ, DIA
@@ -66,6 +70,10 @@
 				return err;
 			});
 		}; 
+
+		$scope.checkSearch = function() {
+			$scope.$emit('searchStart', { search: $scope.search});
+		};
 
 		function sumCosts(entries) {
 			var totCost = 0;

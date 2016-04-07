@@ -107,15 +107,36 @@
                                   <th style="width:5%">
                                     <input type="checkbox" class="no-margin">
                                   </th>
-                                  <th style="width:45%">Description</th>
-                                  <th style="width:10%" class="hidden-phone">Cost</th>
+                                  <th style="width:45%">Description &nbsp;
+                                    <span class="label label-success" ng-click="setSize(10)">10 entries</span>
+                                    <span class="label label-success" ng-click="setSize(25)">25 entries</span>
+                                    <span class="label label-success" ng-click="setSize(50)">50 entries</span>
+                                    <a href="javascript:void(0)" ng-click="sortType = 'description';sortReverse = !sortReverse" >
+                                      <i class="fa fa-sort pull-right" ng-show="sortType != 'description'"></i>
+                                      <i ng-show="sortType == 'description' && !sortReverse" class="fa fa-caret-down pull-right"></i>
+                                      <i ng-show="sortType == 'description' && sortReverse" class="fa fa-caret-up pull-right"></i>
+                                    </a>
+                                  </th>
+                                  <th style="width:10%" class="hidden-phone">Cost
+                                    <a href="javascript:void(0)" ng-click="sortType = 'cost';sortReverse = !sortReverse">
+                                      <i class="fa fa-sort pull-right" ng-show="sortType != 'cost'"></i>
+                                      <span ng-show="sortType == 'cost' && !sortReverse" class="fa fa-caret-down pull-right"></span>
+                                      <span ng-show="sortType == 'cost' && sortReverse" class="fa fa-caret-up pull-right"></span>
+                                    </a>
+                                  </th>
                                   <th style="width:10%" class="hidden-phone">Status</th>
-                                  <th style="width:15%" class="hidden-phone">Date</th>
+                                  <th style="width:15%" class="hidden-phone">Date
+                                    <a href="javascript:void(0)" ng-click="sortType = 'date';sortReverse = !sortReverse">
+                                      <i class="fa fa-sort pull-right" ng-show="sortType != 'date'"></i>
+                                      <span ng-show="sortType == 'date' && !sortReverse" class="fa fa-caret-down pull-right"></span>
+                                      <span ng-show="sortType == 'date' && sortReverse" class="fa fa-caret-up pull-right"></span>
+                                    </a>
+                                  </th>
                                   <th style="width:15%" class="hidden-phone">Actions</th>
                                 </tr>
                               </thead>
                               <tbody>
-                                <tr ng-repeat = "entry in display">
+                                <tr ng-repeat = "entry in entries | filter:search | offset: currentPage*itemsPerPage | limitTo: itemsPerPage | orderInnerObjectBy:sortType:sortReverse">
                                   <td>
                                     <input type="checkbox" class="no-margin">
                                   </td>

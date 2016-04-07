@@ -13,6 +13,10 @@
 		var months = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december'];
 		var monthIndex = [1,2,3,4,5,6,7,8,9,10,11,12];
 
+		$scope.$on('searchStart', function(event,args) {
+			$scope.search = args.search;
+		});
+
 		moneyChartsService.getAutomaticEntries().success(function(result) {
 			$scope.entries = result.data;
 		}).error(function(err) {
