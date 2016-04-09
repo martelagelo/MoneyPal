@@ -35,10 +35,16 @@
 			
 		});	
 
-		moneyDataService.getTopics().success(function(result) {
+		// moneyDataService.getTopics().success(function(result) {
+		// 	makeTopicPieGraph(result.data[0]);
+		// }).error(function(err) {
+		// 	console.log("Failed to get topics");
+		// });
+
+		moneyDataService.getFilteredTopics().success(function(result) {
 			makeTopicPieGraph(result.data);
 		}).error(function(err) {
-			console.log("Failed to get topics");
+			console.log("Failed to get filtered topics");
 		});
 
 		function makeLineGraph(events) {
@@ -131,21 +137,13 @@
 
 		function makeTopicPieGraph(topics) {
 			var sum = 0;
-			topics[0].topicCosts.forEach(function(cost) {
+			topics.topicCosts.forEach(function(cost) {
 				sum = sum + cost;
 			});
 			var data = [];
-			for(var i = 0; i < topics[0].topics.length; i++) {
-				data.push({label: topics[0].topics[i], data: money_round(topics[0].topicCosts[i]/sum)});
-			}
-			// var data = [
-			//     { label: "IE",  data: 19.5},
-			//     { label: "Safari",  data: 4.5},
-			//     { label: "Firefox",  data: 36.6},
-			//     { label: "Opera",  data: 2.3},
-			//     { label: "Chrome",  data: 36.3},
-			//     { label: "Other",  data: 0.8}
-			// ];
+			for(var i = 0; i < topics.topics.length; i++) {
+				data.push({label: topics.topics[i], data: money_round(topics.topicCosts[i]/sum)});
+			};
 		
 		    plot3 = $.plot($("#simplePieChart"), data, {
 		    	series: {
@@ -278,13 +276,11 @@
 		}
 
 		function mergeSort(arr) {
-		    if (arr.length < 2)
-		        return arr;
+		    if (arr.length < 2) return arr;
 		 
 		    var middle = parseInt(arr.length / 2);
 		    var left   = arr.slice(0, middle);
 		    var right  = arr.slice(middle, arr.length);
-		 
 		    return merge(mergeSort(left), mergeSort(right));
 		};
 		 
@@ -310,13 +306,10 @@
 		    		result.push(right.shift());
 		    	}
 		    }
-		 
 		    while (left.length)
 		        result.push(left.shift());
-		 
 		    while (right.length)
 		        result.push(right.shift());
-		 
 		    return result;
 		};
 
@@ -325,9 +318,7 @@
 		};
 		 
 		function pieHover(event, pos, obj) {
-		    if (!obj)
-		        return;
-		 
+		    if (!obj) return;
 		    percent = parseFloat(obj.series.percent).toFixed(2);
 		    $("#pieHover").html('<span style="font-weight: bold; color: '+obj.series.color+'">'+obj.series.label+' ('+percent+'%)</span>');
 		}

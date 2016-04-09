@@ -190,6 +190,29 @@ exports.getMoneyLocations = function(req, res, next) {
 	});
 };
 
+exports.getMoneyEntriesBetweenDates = function(req, res, next) {
+	items.find({
+		userId: req.user._id,
+    	created_at: {
+        	$gte: ISODate("2016-03-01T00:00:00.000Z"),
+        	$lt: ISODate("2016-04-01T00:00:00.000Z")
+    	}
+	}, function(err, entries) {
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		}
+		else {
+			res.status(200).send({
+				status: true,
+				data: entries,
+				user: req.user
+			});
+		}
+	})
+}
+
 function getNewTopics(description, cost, user) {
 	cost = Math.abs(cost);
 	var fields = 'keywords topics keywordFreqs topicFreqs topicCosts keywordCosts';

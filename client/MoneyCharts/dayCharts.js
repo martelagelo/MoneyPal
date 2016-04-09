@@ -165,6 +165,10 @@
 		/********************End Money Entry Creation, Updating, and Deletion******************/
 		/**************************************************************************************/
 
+		$scope.pickDates = function() {
+			console.log("Hello");
+		};
+
 		$scope.goToToday = function() {
 			var d = new Date();
 			var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';

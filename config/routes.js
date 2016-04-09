@@ -49,6 +49,8 @@ module.exports = function(app, passport) {
 	/******************************************************************************************/
 	app.get('/dayCharts/:id', isAuthenticated, moneyEntryController.getMoneyEntries);
 
+	app.get('/dayCharts/dates', isAuthenticated, moneyEntryController.getMoneyEntriesBetweenDates);
+
 	app.get('/dayChartsByDay', isAuthenticated, moneyEntryController.getMoneyEntriesByDay);
 
 	app.put('/dayCharts/:id', isAuthenticated, moneyEntryController.updateMoneyEntry);

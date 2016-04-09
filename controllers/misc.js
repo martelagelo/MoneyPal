@@ -50,17 +50,21 @@ exports.getFilteredTopics = function(req, res) {
 				topicCosts : [],
 				topicFreqs : []
 			};
-			for(var key in topic[0].topics) {
-				if (data.topics.length == 5) {
-					var ind = data.topicFreqs.indexOf(Math.max.apply(Math, data.topicFreqs));
-					if (data.topicFreqs[ind] < topic[0].topicFreqs[topic[0].topics.indexOf(key)]) {
+			for (var i = 0; i < topic[0].topics.length; i++) {
+				if (data.topics.length >= 5) {
+					var ind = data.topicFreqs.indexOf(Math.min.apply(Math, data.topicFreqs));
+					if (data.topicFreqs[ind] < topic[0].topicFreqs[i]) {
 						data.topics.splice(ind, 1); 
-						//TODO NOT DONE;
+						data.topicCosts.splice(ind, 1);
+						data.topicFreqs.splice(ind, 1);
+						data.topics.push(topic[0].topics[i]);
+						data.topicCosts.push(topic[0].topicCosts[i]);
+						data.topicFreqs.push(topic[0].topicFreqs[i]);
 					}
 				} else {
-					data.topics.push(key);
-					data.topicCosts.push(topic[0].topicCosts[topic[0].topics.indexOf(key)]);
-					data.topicFreqs.push(topic[0].topicFreqs[topic[0].topics.indexOf(key)]);
+					data.topics.push(topic[0].topics[i]);
+					data.topicCosts.push(topic[0].topicCosts[i]);
+					data.topicFreqs.push(topic[0].topicFreqs[i]);
 				}
 			}
 			res.status(200).send({

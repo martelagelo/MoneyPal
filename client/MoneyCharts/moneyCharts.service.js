@@ -38,6 +38,10 @@ angular.module('moneyPal.moneyCharts')
 			return $http.get('/dayChartsByDay?year='+year+'&month='+month+'&day='+day);
 		};
 
+		var getMoneyEntriesBetweenDates = function(date1, date2) {
+			return $http.get('/dayCharts/dates?date1='+date1+'&date2='+date2);
+		}
+
 		var createAutomaticEntry = function(entry) {
 			return $http.post('/automatic', entry);
 		};
@@ -63,6 +67,7 @@ angular.module('moneyPal.moneyCharts')
 			createAutomaticEntry : createAutomaticEntry,
 			getAutomaticEntries  : getAutomaticEntries,
 			deleteAutomaticEntry : deleteAutomaticEntry,
+			getMoneyEntriesBetweenDates : getMoneyEntriesBetweenDates,
 		}
 
 });
