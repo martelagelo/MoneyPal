@@ -40,9 +40,10 @@ exports.getTopic = function(req, res) {
 exports.getFilteredTopics = function(req, res) {
 	var fields = 'keywords topics keywordFreqs topicFreqs topicCosts keywordCosts';
 	Topic.getTopics({criteria: {userId: req.user._id}, select: fields}, function(err, topic) {
-		if(err) {
+		if(err || topic.length == 0) {
 			res.status(500).send({
-				status: false
+				status: false,
+				data: [],
 			});
 		} else {
 			var data = {

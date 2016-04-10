@@ -103,9 +103,7 @@
                             <table class="table table-condensed table-striped table-bordered table-hover no-margin">
                               <thead>
                                 <tr>
-                                  <th style="width:5%">
-                                    <input type="checkbox" class="no-margin">
-                                  </th>
+                                  <th style="width:5%" class="hidden-phone">Info</th>
                                   <th style="width:45%">Description &nbsp;
                                     <span class="label label-success" ng-click="setSize(10)">10 entries</span>
                                     <span class="label label-success" ng-click="setSize(25)">25 entries</span>
@@ -137,7 +135,7 @@
                               <tbody>
                                 <tr ng-repeat = "entry in entries | filter:search | offset: currentPage*itemsPerPage | limitTo: itemsPerPage | orderInnerObjectBy:sortType:sortReverse">
                                   <td>
-                                    <input type="checkbox" class="no-margin">
+                                    <button class="btn btn-xs" ng-click="getEntryModal(entry)">{{$index+1}}</button>
                                   </td>
                                   <td ng-hide="isEdit(entry)">
                                     <span class="name">{{entry.description}}</span>

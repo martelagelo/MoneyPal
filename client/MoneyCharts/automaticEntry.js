@@ -101,7 +101,7 @@
 			swal({
 				title: "<h2> How Automatic Entries Work</h2>",
 				text: '<p style="color:#337ab7">Automatic Entries allow you to create transactions that enter themselves automatically based on a certain date.</p>'+
-					'<br><p><b>The four formats of an automatic entry are:</b></p><br>'+
+					'<br><p><b>The four formats of an Automatic Entry are:</b></p><br>'+
 					'<ol align="left" style="font-size:14px">'+
 						'<li>An entry that occurs every day</li>'+
 						'<li>An entry that occurs every week on a given day</li>'+

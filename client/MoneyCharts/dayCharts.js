@@ -19,12 +19,13 @@
 			$(this).css('background-color', '#337ab7');
 		}).mouseout(function() {
 			$(this).css('background-color', '#5cb85c');
-		})
+		});
 
 		if ($location.search().param == undefined) {
 			$scope.date = new Date();
 			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
+				//console.log(resp.allMoneyEntries);
 				initializeScopeVars(resp.allMoneyEntries);
 			}).error(function(err, status) {
 				if (status == 401) {
@@ -161,7 +162,56 @@
 		/********************End Money Entry Creation, Updating, and Deletion******************/
 		/**************************************************************************************/
 
-		$scope.pickDates = function() {
+		$scope.getEntryModal = function(entry) {
+			if (entry.isCost == true) var isCost = 'Expenditure';
+			else var isCost = 'Income';
+
+			if (entry.location == null) {
+				entry.location = 'Not Available';
+			};
+			if (entry.latlng==null || !entry.latlng) {
+				var lat = 'Not Available';
+				var lng = 'Not Available';
+			} else {
+				var lat = money_round(entry.latlng.lat);
+				var lng = money_round(entry.latlng.lng);
+			};
+			var d = new Date(entry.date);
+			
+			swal({
+				title: "<h2>Entry Info:</h2>",
+				text: ''+
+					'<table class="table table-striped no-margin">'+
+						'<tr>'+
+							'<td>Description:</td>'+
+							'<td>'+entry.description+'</td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td>Cost:</td>'+
+							'<td>$ '+entry.cost+'</td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td>Entry Type:</td>'+
+							'<td>'+isCost+'</td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td>Date:</td>'+
+							'<td>'+d.toDateString()+'</td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td>Location:</td>'+
+							'<td>'+entry.location+'</td>'+
+						'</tr>'+
+						'<tr>'+
+							'<td>Coordinates:</td>'+
+							'<td>Lat: '+lat+' Lng: '+lng+'</td>'+
+						'</tr>'+
+					'</table>',
+				html: true
+			});
+		};
+
+		$scope.pickDates = function() {			//Will be used to grab entries between two dates
 			console.log("Hello");
 		};
 
@@ -269,13 +319,6 @@
 		function money_round(num) {
     		return Math.ceil(num * 100) / 100;
 		};
-
-		function copy(entries, start, end) {
-			if (end > entries.length) end = entries.length; 
-			arr = [];
-			for (var i = start; i < end; i++) arr.push(entries[i]);
-			return arr;
-		}
 
 		/******************************************************************************/
 		/************************Start Google Maps Location Functionality**************/
