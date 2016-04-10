@@ -4,8 +4,6 @@
 
 	function moneyMapController($scope, loginDataService, authToken, $location, moneyDataService) {
 
-		var user = loginDataService.getUserInfo();
-
 		moneyDataService.getMoneyLocations().success(function(resp) {
 			initAutocomplete(resp.listOfLocations);
 		}).error(function(err, status) {
@@ -25,7 +23,7 @@
       		var geocoder = new google.maps.Geocoder;
 		    entries.forEach(function(entry) {
 		    	if(entry.location === null) {
-		    		console.log(entry.description + ": Did not have a location");
+		    		//console.log(entry.description + ": Did not have a location");
 				} else {
 					if (!entry.latlng || entry.latlng == null) {
 						geocoder.geocode({'address': entry.location}, function(results, status) {
@@ -36,7 +34,7 @@
 					            	title: entry.description
 					        	});
 					      	} else {
-					      		console.log(entry.location + ": Failed to find");
+					      		//console.log(entry.location + ": Failed to find");
 					       	 	alert("Geocode was not successful for the following reason: " + status);
 					      	}
 					    });

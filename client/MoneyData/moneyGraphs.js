@@ -35,6 +35,7 @@
 			
 		});	
 
+		/**This gets all the topics**/
 		// moneyDataService.getTopics().success(function(result) {
 		// 	makeTopicPieGraph(result.data[0]);
 		// }).error(function(err) {

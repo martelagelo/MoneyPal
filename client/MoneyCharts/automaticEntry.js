@@ -97,6 +97,29 @@
 			});
 		}
 
+		$scope.getHelpModal = function() {
+			swal({
+				title: "<h2> How Automatic Entries Work</h2>",
+				text: '<p style="color:#337ab7">Automatic Entries allow you to create transactions that enter themselves automatically based on a certain date.</p>'+
+					'<br><p><b>The four formats of an automatic entry are:</b></p><br>'+
+					'<ol align="left" style="font-size:14px">'+
+						'<li>An entry that occurs every day</li>'+
+						'<li>An entry that occurs every week on a given day</li>'+
+						'<li>An entry that occurs every month on a given day</li>'+
+						'<li>An entry that occurs every year on a given month and day</li>'+
+					'</ol>'+
+					'<br>'+
+					'<p><b>Information about creating a new Automatic Entry</b></p><br>'+
+					'<ul align="left" style="font-size:14px">'+
+						'<li>For an <b>every day</b> entry: leave <span class="label label-default">day of week</span>, <span class="label label-primary">month</span>, and <span class="label label-success">day of month</span> blank.</li>'+
+						'<li>For an <b>every week on a given day</b> entry: only fill in <span class="label label-default">day of week</span>.</li>'+
+						'<li>For an <b>every month on a given day</b> entry: only fill in <span class="label label-primary">day of month</span>.</li>'+
+						'<li>For an <b>every year on a given month and day</b> entry: fill in <span class="label label-primary">month</span> and <span class="label label-success">day of month</span>.</li>'+
+					'</ul>',
+				html: true
+			});
+		};
+
 		$scope.getDayOfWeek = function(entry) {
 			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
 			if (entry.dayOfWeek) return "Every " + week[entry.dayOfWeek].charAt(0).toUpperCase() + week[entry.dayOfWeek].substr(1);
