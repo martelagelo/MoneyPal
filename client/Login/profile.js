@@ -4,7 +4,6 @@
 
 	function profileController($scope, $location, loginDataService) {
 		var user = loginDataService.getUserInfo();
-		//console.log(user);
 		
 		$scope.firstName = user.firstName;
 		$scope.lastName = user.lastName;

@@ -42,6 +42,7 @@
 		// 	console.log("Failed to get topics");
 		// });
 
+		/* Gets the top 5 most common, reoccuring topics and their total costs */
 		moneyDataService.getFilteredTopics().success(function(result) {
 			makeTopicPieGraph(result.data);
 		}).error(function(err) {
@@ -161,7 +162,6 @@
 				colors: [$green, $blue, $default_black],
 		    });
 		    $("#simplePieChart").bind("plothover", pieHover);
-
 		};
 
 		function gd(year, month, day) {
@@ -260,7 +260,6 @@
 			var i, j, dataset = plot.getData();
 			for (i = 0; i < dataset.length; ++i) {
 				var series = dataset[i];
-				// console.log(series);
 				// find the nearest points, x-wise
 				for (j = 0; j < series.data.length; ++j)
 				if (series.data[j][0] > pos.x) break;
@@ -271,8 +270,6 @@
 				else if (p2 == null) y = p1[1];
 				else y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
 				$('.legendLabel:first').text(series.label.replace(/=.*/, "= $" + y.toFixed(2)));
-				// legends.eq(i).text(series.label.replace(/=.*/, "= $" + y.toFixed(2)));
-				// console.log("Daily Net Exchange = $" + y.toFixed(2));
 			}
 		}
 

@@ -23,6 +23,9 @@
 			console.log("Error in fetching automatic entries");
 		});
 
+		/**************************************************************************************/
+		/*************************Automatic Entry Creation and Deletion************************/
+		/**************************************************************************************/
 		$scope.createEntry = function() {
 			if($scope.newCost && $scope.newDescription && $scope.newSelect) {
 				if(!isNaN($scope.newCost)) {
@@ -84,7 +87,26 @@
 					}
 				} else swal("Error", "Your cost must be a valid number.", "error");
 			} else swal("Error", "You must include a description, cost, and cost type.", "error");
+		};
 
+		function submitEntry(entry) {
+			moneyChartsService.createAutomaticEntry(entry).success(function(result) {
+				$scope.entries.push(result.data);
+				$scope.toggleCreate();
+
+				/* Clears all the input boxes for creating a new entry */
+				$scope.newMonth = "";
+				$scope.newDayOfWeek = "";
+				$scope.newSelect = "";
+				$scope.newDay = "";
+				$scope.newCost = "";
+				$scope.newDescription = "";
+				$scope.weekDisabled = false;
+				$scope.dayMonthDisabled = false;
+
+			}).error(function(err) {
+				console.log("I hit an error while creating a new automatic entry");
+			});
 		};
 
 		$scope.deleteAutomaticEntry = function(entry) {
@@ -95,8 +117,14 @@
 			}).error(function(err) {
 				console.log("Failed to delete automatic entry");
 			});
-		}
+		};
+		/**************************************************************************************/
+		/*********************End Automatic Entry Creation and Deletion************************/
+		/**************************************************************************************/
 
+		/**************************************************************************************/
+		/**************************Automatic Entry Help Modal**********************************/
+		/**************************************************************************************/
 		$scope.getHelpModal = function() {
 			swal({
 				title: "<h2> How Automatic Entries Work</h2>",
@@ -119,61 +147,54 @@
 				html: true
 			});
 		};
+		/**************************************************************************************/
+		/**************************End Automatic Entry Help Modal******************************/
+		/**************************************************************************************/
 
+		/**************************************************************************************/
+		/****************************Entries Format to Text Conversion*************************/
+		/**************************************************************************************/
 		$scope.getDayOfWeek = function(entry) {
 			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
 			if (entry.dayOfWeek) return "Every " + week[entry.dayOfWeek].charAt(0).toUpperCase() + week[entry.dayOfWeek].substr(1);
-			//else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "Not Applicable";
 			else return "--"
-		}
+		};
 
 		$scope.getMonth = function(entry) {
 			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "--";
 			else if (entry.dayOfWeek) return "--";
 			else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "Monthly";
 			else return "Yearly, during " + months[entry.month].charAt(0).toUpperCase() + months[entry.month].substr(1);
-		}
+		};
 
 		$scope.getDay = function(entry) {
 			if (entry.day == null && entry.month == null && entry.dayOfWeek == null) return "Every Day";
 			else if (entry.dayOfWeek) return "--";
-			//else if (entry.day && entry.month == null && entry.dayOfWeek == null) return "On the " + entry.day;
-			//else if (entry.day && entry.month) return "On the " + entry.day;
 			else return "On the " + entry.day;
-		}
+		};
+		/**************************************************************************************/
+		/************************End Entries Format to Text Conversion*************************/
+		/**************************************************************************************/
 
+		/**************************************************************************************/
+		/*********************************Helper Functions*************************************/
+		/**************************************************************************************/
 		$scope.disableDayMonth = function() {
 			if ($scope.newDayOfWeek) $scope.dayMonthDisabled = true;
 			else $scope.dayMonthDisabled = false;
-		}
+		};
 
 		$scope.disableWeek = function() {
 			if ($scope.newMonth || $scope.newDay) $scope.weekDisabled = true;
 			else $scope.weekDisabled = false;
-		}
+		};
 
 		$scope.toggleCreate = function() {
 			$scope.isCreate = !$scope.isCreate;
-		}
-
-		function submitEntry(entry) {
-			moneyChartsService.createAutomaticEntry(entry).success(function(result) {
-				$scope.entries.push(result.data);
-				$scope.toggleCreate();
-
-				$scope.newMonth = "";
-				$scope.newDayOfWeek = "";
-				$scope.newSelect = "";
-				$scope.newDay = "";
-				$scope.newCost = "";
-				$scope.newDescription = "";
-				$scope.weekDisabled = false;
-				$scope.dayMonthDisabled = false;
-
-			}).error(function(err) {
-				console.log("I hit an error while creating a new automatic entry");
-			});
 		};
+		/**************************************************************************************/
+		/******************************End Helper Functions************************************/
+		/**************************************************************************************/
 
 	};
 }());

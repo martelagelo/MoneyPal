@@ -3,6 +3,7 @@ angular.module("moneyPal.login")
 		var user = {};
 		var userinfo = $window.localStorage;
 
+		/*************User Details*************/
 		var getUserInfo = function() {
 			var userDetails = JSON.parse(userinfo.getItem('userdetails'));
 			return userDetails;
@@ -27,8 +28,8 @@ angular.module("moneyPal.login")
 		var loginFailure = function(err){
 			return $q.reject(err.data);
 		};
-		/************End Login Details**********/
 
+		/************Logout Details*************/
 		var logout = function(){
 			return $http.post('/logout');
 		};
@@ -48,7 +49,6 @@ angular.module("moneyPal.login")
 
 		/**************Profile********************/
 		var changeProfile = function(profile) {
-			//console.log(profile);
 			return $http.put('/login/change_profile', {data:profile});
 		}
 

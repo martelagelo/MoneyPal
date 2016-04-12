@@ -154,7 +154,6 @@ exports.deleteMoneyEntry = function(req, res, next) {
 };
 
 exports.updateMoneyEntry = function(req, res, next) {
-	//Do this only if the reportStatus is pending and not processing or available.
 	MoneyEntry.findByIdAndUpdate(req.params.id, {$set: req.body.entry}, function(err, entry) {	
 		if(err){
 			res.status(401).send({
@@ -190,6 +189,7 @@ exports.getMoneyLocations = function(req, res, next) {
 	});
 };
 
+/* Currently not used */
 exports.getMoneyEntriesBetweenDates = function(req, res, next) {
 	items.find({
 		userId: req.user._id,

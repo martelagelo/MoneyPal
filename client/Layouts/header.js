@@ -37,9 +37,11 @@
 			console.log("Could not get yahoo data");
 		});
 
+		//Called when the total transaction cost is changed
 		$scope.$on('updateCosts', function(event, args) {
 			getCosts();
 		});
+		//Called when the user profile is changed
 		$scope.$on('changeProf', function(event,args) {
 			user = loginDataService.getUserInfo();
 			$scope.name = user.firstName + " " + user.lastName;
@@ -89,10 +91,12 @@
 			});
 		}; 
 
+		//Called whenever the value of the search bar is changed
 		$scope.checkSearch = function() {
 			$scope.$emit('searchStart', { search: $scope.search});
 		};
 
+		//Sums all the costs in a list of entries and then round the answer
 		function sumCosts(entries) {
 			var totCost = 0;
 			entries.forEach(function(entry) {

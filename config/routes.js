@@ -23,7 +23,7 @@ var isAuthenticated = function (req, res, next) {
 module.exports = function(app, passport) {
 
 	/******************************************************************************************/
-	/*Cron Job that sends report Requests to S3*/
+	/*Cron Job that check to see whether or not any Automatic Entries must be activated*/
 	/******************************************************************************************/
 	var job = new CronJob({
 		cronTime: '00 00 14 * * *',
@@ -68,6 +68,12 @@ module.exports = function(app, passport) {
 
 	app.get('/charts/cost/year', isAuthenticated, moneyEntryController.getCostsByYear);
 
+	/*For stock data*/
+	app.get('/stock', miscController.getStockPrice);
+
+	/*For RSS feed data*/
+	app.get('/rssfeed', miscController.getRssFeed);
+
 	/******************************************************************************************/
 	/*calendar routes*/
 	/******************************************************************************************/
@@ -77,11 +83,6 @@ module.exports = function(app, passport) {
 	/*map routes*/
 	/******************************************************************************************/
 	app.get('/data/locations', isAuthenticated, moneyEntryController.getMoneyLocations);
-
-	/******************************************************************************************/
-	/*stock routes*/
-	/******************************************************************************************/
-	app.get('/stock', miscController.getStockPrice);
 
 	/******************************************************************************************/
 	/*automatic entry routes*/
@@ -99,9 +100,5 @@ module.exports = function(app, passport) {
 
 	app.get('/topic/filtered', isAuthenticated, miscController.getFilteredTopics);
 
-	/******************************************************************************************/
-	/*rss feed reader routes*/
-	/******************************************************************************************/
-	app.get('/rssfeed', miscController.getRssFeed);
 
 };

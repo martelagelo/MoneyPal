@@ -5,8 +5,10 @@
 	function monthChartsController($scope, loginDataService, moneyChartsService, authToken, $location) {
 
 		moneyChartsService.getCalendarCosts().success(function(data){
+			/* Creates all the events that will go into the calendar */
 			var events = createChartEntries(calculateDailyCosts(data.entries));
 
+			/* Creates a jquery calendar*/
 			$('#calendar').fullCalendar({
 			    header: {
 			      left: 'prev,next today',

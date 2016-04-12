@@ -25,7 +25,6 @@
 			$scope.date = new Date();
 			$scope.allTransactions = true;
 			moneyChartsService.getMoneyEntries().success(function(resp) {
-				//console.log(resp.allMoneyEntries);
 				initializeScopeVars(resp.allMoneyEntries);
 			}).error(function(err, status) {
 				if (status == 401) {
@@ -35,7 +34,6 @@
 				}
 				else {
 					console.log("I hit an error");
-					//$location.path('/login'); 
 				}
         		return err; 
 			});
@@ -53,7 +51,6 @@
 				}
 				else {
 					console.log("I hit an error");
-					//$location.path('/login'); 
 				}
         		return err; 
 			});
@@ -215,6 +212,7 @@
 			console.log("Hello");
 		};
 
+		/* Reloads the page to only include today's entries */
 		$scope.goToToday = function() {
 			var d = new Date();
 			var param = ''+d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate()+'';
@@ -287,6 +285,9 @@
 		/*************************End Pagination***********************************************/
 		/**************************************************************************************/
 
+		/**************************************************************************************/
+		/*********************************Helper Functions*************************************/
+		/**************************************************************************************/
 		function initializeScopeVars(entries) {
 			$scope.entries = entries;
 			$scope.editArray = makeEditArray(entries);
@@ -319,10 +320,13 @@
 		function money_round(num) {
     		return Math.ceil(num * 100) / 100;
 		};
+		/**************************************************************************************/
+		/******************************End Helper Functions************************************/
+		/**************************************************************************************/
 
-		/******************************************************************************/
-		/************************Start Google Maps Location Functionality**************/
-		/******************************************************************************/
+		/**************************************************************************************/
+		/************************Start Google Maps Location Functionality**********************/
+		/**************************************************************************************/
 		function getLocation() {
 			if (navigator.geolocation) {
 		    	navigator.geolocation.getCurrentPosition(function(position) {
@@ -360,9 +364,9 @@
 		function handleLocationError(browserHasGeolocation, infoWindow) {
 			//Do Something;
 		};
-		/******************************************************************************/
-		/************************End Google Maps Location Functionality**************/
-		/******************************************************************************/
+		/***********************************************************************************/
+		/************************End Google Maps Location Functionality*********************/
+		/***********************************************************************************/
 	
 	};
 }());
