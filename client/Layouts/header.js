@@ -18,7 +18,7 @@
 
 		// Fill RSS feed readers
 		layoutService.getRssFeed('http://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml').success(function(parsed) {
-			$scope.feed = parsed.feed.feed.entries;
+			$scope.feed = parsed.parsed.feed.entries;
 		}).error(function(err) {
 			console.log("Could not get RSS feed data");
 		});
