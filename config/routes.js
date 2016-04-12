@@ -99,4 +99,9 @@ module.exports = function(app, passport) {
 
 	app.get('/topic/filtered', isAuthenticated, miscController.getFilteredTopics);
 
+	/******************************************************************************************/
+	/*rss feed reader routes*/
+	/******************************************************************************************/
+	app.get('/rssfeed', miscController.getRssFeed);
+
 };

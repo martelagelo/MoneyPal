@@ -5,7 +5,12 @@ angular.module('moneyPal.layout')
 		return $http.get('/stock?stock1='+stock1+"&stock2="+stock2+"&stock3="+stock3);
 	};
 
+	var getRssFeed = function(url) {
+		return $http.get('/rssfeed?url='+url);
+	};
+
 	return {
-		getStock : getStock
+		getStock : getStock,
+		getRssFeed : getRssFeed
 	};
 });

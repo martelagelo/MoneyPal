@@ -56,21 +56,21 @@
                     <a id="drop2" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                         <div class="fs1" aria-hidden="true" data-icon="&#xe0e3;"></div>
                     </a>
-                    <span class="info-label blue-bg animated rubberBand">3</span>
+                    <!-- <span class="info-label blue-bg animated rubberBand">3</span> -->
                     <ul class="dropdown-menu fadeInUp animated messages">
-                        <li class="dropdown-header">Recent Chat</li>
+                        <li class="dropdown-header">News</li>
                         <div class="chats clearfix">
-                            <p class="chat them">
-                            James, I'm going to be a little late.
+                            <p class="chat me">
+                                <a href={{feed[0].link}}>{{feed[0].title}}</a>
                             </p>
                             <p class="chat me">
-                            S'Okay, Dude. You know your lines...?
-                            </p>
-                            <p class="chat them">
-                            I know em, I don't know what order they come in...
+                                <a href={{feed[1].link}}>{{feed[1].title}}</a>
                             </p>
                             <p class="chat me">
-                            We'll work it out...
+                                <a href={{feed[2].link}}>{{feed[2].title}}</a>
+                            </p>
+                            <p class="chat me">
+                                <a href={{feed[3].link}}>{{feed[3].title}}</a>
                             </p>
                         </div>
                     </ul>

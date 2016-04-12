@@ -16,6 +16,13 @@
 
 		getCosts();
 
+		// Fill RSS feed readers
+		layoutService.getRssFeed('http://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml').success(function(parsed) {
+			$scope.feed = parsed.feed.feed.entries;
+		}).error(function(err) {
+			console.log("Could not get RSS feed data");
+		});
+
 		//SPY, NDAQ, DIA
 		layoutService.getStock('DIA', '^GSPC', '^IXIC').success(function(resp) {
 			$scope.stocks = resp.stocks;

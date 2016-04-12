@@ -1,5 +1,22 @@
 var yahooFinance = require('yahoo-finance');
 var Topic = require('../models/Topic.js');
+var parser = require('rss-parser');
+
+exports.getRssFeed = function(req, res) {
+	parser.parseURL(req.query.url, function (err, parsed){
+		if(err) {
+			res.status(500).send({
+				status: false
+			});
+		}
+		else {
+			res.status(200).send({
+				status: true,
+				parsed: parsed
+			});
+		}
+	});
+};
 
 exports.getStockPrice = function(req, res) {
 	yahooFinance.snapshot({
