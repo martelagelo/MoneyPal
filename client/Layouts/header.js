@@ -7,6 +7,7 @@
 		if(user == null || user == undefined) $location.path('/login');
 		$scope.name = user.firstName + " " + user.lastName;
 
+		//Activates or deactivates the search bar, based on the url.
 		$scope.disabled = true;
 		$scope.searchBarPlaceHolder = "disabled";
 		if ($state.is('dayCharts') || $state.is("dayCharts/:param") || $state.is("automaticEntry")) {
@@ -14,10 +15,16 @@
 			$scope.searchBarPlaceHolder = "Search here";
 		};
 
+		//Gets the transaction net costs by day, month, and year
 		getCosts();
 
 		// Fill RSS feed readers
+		$scope.feedTitle = "Not Available Yet";
+		$scope.feedLink = "";
+		$scope.feed = [];
 		layoutService.getRssFeed('http://rss.nytimes.com/services/xml/rss/nyt/YourMoney.xml').success(function(parsed) {
+			$scope.feedTitle = parsed.parsed.feed.title;
+			$scope.feedLink = parsed.parsed.feed.link;
 			$scope.feed = parsed.parsed.feed.entries;
 		}).error(function(err) {
 			console.log("Could not get RSS feed data");
@@ -41,6 +48,7 @@
 
 		$.getScript("./assets/js/custom.js");
 
+		//Gets the transaction net costs by day, month, and year
 		function getCosts() {
 			var date = new Date();
 

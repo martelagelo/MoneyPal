@@ -57,33 +57,16 @@
                         <div class="fs1" aria-hidden="true" data-icon="&#xe0e3;"></div>
                     </a>
                     <!-- <span class="info-label blue-bg animated rubberBand">3</span> -->
-                    <ul class="dropdown-menu flipInX animated messages">
-                        <li class="dropdown-header">Your Money News</li>
-                        <li>
+                    <ul class="dropdown-menu flipInX animated messages" style="overflow:hidden; overflow-y:scroll;height:400px;">
+                        <li class="dropdown-header">News From : {{feedTitle}}</li>
+                        <li class="dropdown-header"><a href={{feedLink}}>{{feedLink}}</a></li>
+                        <li ng-repeat = "entry in feed">
                             <div class="icon">
                                 <img src="assets/img/admin11.png" alt="Browser">
                             </div>
                             <div class="details">
-                                <strong class="text-success"><a href={{feed[0].link}}>{{feed[0].title}}</a></strong>
-                                <span>{{feed[0].contentSnippet}}</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="icon">
-                                <img src="assets/img/admin11.png" alt="Browser">
-                            </div>
-                            <div class="details">
-                                <strong class="text-success"><a href={{feed[1].link}}>{{feed[1].title}}</a></strong>
-                                <span>{{feed[1].contentSnippet}}</span>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="icon">
-                                <img src="assets/img/admin11.png" alt="Browser">
-                            </div>
-                            <div class="details">
-                                <strong class="text-success"><a href={{feed[2].link}}>{{feed[2].title}}</a></strong>
-                                <span>{{feed[2].contentSnippet}}</span>
+                                <strong class="text-success"><a href={{entry.link}}>{{entry.title}}</a></strong>
+                                <span>{{entry.contentSnippet}}</span>
                             </div>
                         </li>
                     </ul>
