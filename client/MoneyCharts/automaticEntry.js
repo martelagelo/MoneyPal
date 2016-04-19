@@ -141,7 +141,7 @@
 					'<ul align="left" style="font-size:14px">'+
 						'<li>For an <b>every day</b> entry: leave <span class="label label-default">day of week</span>, <span class="label label-primary">month</span>, and <span class="label label-success">day of month</span> blank.</li>'+
 						'<li>For an <b>every week on a given day</b> entry: only fill in <span class="label label-default">day of week</span>.</li>'+
-						'<li>For an <b>every month on a given day</b> entry: only fill in <span class="label label-primary">day of month</span>.</li>'+
+						'<li>For an <b>every month on a given day</b> entry: only fill in <span class="label label-success">day of month</span>.</li>'+
 						'<li>For an <b>every year on a given month and day</b> entry: fill in <span class="label label-primary">month</span> and <span class="label label-success">day of month</span>.</li>'+
 					'</ul>',
 				html: true

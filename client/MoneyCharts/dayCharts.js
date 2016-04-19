@@ -101,7 +101,7 @@
 
 				moneyChartsService.createMoneyEntry(entry).success(function(response) {
 					swal("Success!", "Entry Created!", "success");
-					$scope.entries.push(entry.entry);
+					$scope.entries.push(response.data);
 					$scope.editArray = makeEditArray($scope.entries);
 					$scope.totCost = money_round(calculateTotalDailyCost($scope.entries));
 					$scope.toggleNewEntry();
